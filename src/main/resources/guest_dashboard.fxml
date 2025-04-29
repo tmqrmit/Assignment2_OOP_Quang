@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+
+<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="app.controller.GuestDashboardController" spacing="15" alignment="CENTER"
+      prefWidth="600" prefHeight="450">
+
+    <children>
+        <!-- Dashboard Title -->
+        <Label text="Guest Dashboard - Equipment Lookup" style="-fx-font-size: 16; -fx-font-weight: bold;" />
+
+        <!-- Filter Section -->
+        <VBox spacing="15" alignment="CENTER">
+            <Label text="Filter Equipment by Name, Condition, and Status" style="-fx-font-weight: bold;" />
+
+            <!-- Filters -->
+            <VBox spacing="10" alignment="CENTER">
+                <!-- Name Filter -->
+                <HBox spacing="20" alignment="CENTER_LEFT" prefWidth="500">
+                    <Label text="Name" prefWidth="80" alignment="CENTER_RIGHT" />
+                    <TextField fx:id="searchField" promptText="Search Equipment Name" prefWidth="300" />
+                </HBox>
+
+                <!-- Condition Filter -->
+                <HBox spacing="20" alignment="CENTER_LEFT" prefWidth="500">
+                    <Label text="Condition" prefWidth="80" alignment="CENTER_RIGHT" />
+                    <ComboBox fx:id="conditionFilter" promptText="Select Condition" prefWidth="300">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="All"/>
+                                <String fx:value="BRAND_NEW"/>
+                                <String fx:value="GOOD"/>
+                                <String fx:value="NEEDS_MAINTENANCE"/>
+                                <String fx:value="DAMAGED"/>
+                                <String fx:value="OUT_OF_SERVICE"/>
+                            </FXCollections>
+                        </items>
+                    </ComboBox>
+                </HBox>
+
+                <!-- Status Filter -->
+                <HBox spacing="20" alignment="CENTER_LEFT" prefWidth="500">
+                    <Label text="Status" prefWidth="80" alignment="CENTER_RIGHT" />
+                    <ComboBox fx:id="statusFilter" promptText="Select Status" prefWidth="300">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="All"/>
+                                <String fx:value="AVAILABLE"/>
+                                <String fx:value="BORROWED"/>
+                            </FXCollections>
+                        </items>
+                    </ComboBox>
+                </HBox>
+            </VBox>
+
+            <!-- Buttons -->
+            <HBox spacing="15" alignment="CENTER">
+                <Button text="Apply Filters" onAction="#handleApplyFilters" />
+                <Button text="Show All" onAction="#handleShowAll" />
+            </HBox>
+        </VBox>
+
+        <!-- Equipment Table -->
+        <TableView fx:id="equipmentTable" prefHeight="300" prefWidth="580">
+            <columns>
+                <TableColumn fx:id="colName" text="Name" prefWidth="150" />
+                <TableColumn fx:id="colStatus" text="Status" prefWidth="100" />
+                <TableColumn fx:id="colPurchaseDate" text="Purchase Date" prefWidth="150" />
+                <TableColumn fx:id="colCondition" text="Condition" prefWidth="100" />
+                <TableColumn fx:id="colViewImage" text="View Image" prefWidth="100" />
+            </columns>
+        </TableView>
+    </children>
+</VBox>
