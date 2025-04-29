@@ -46,8 +46,8 @@ public class LoginController {
 
     @FXML
     private void handleLogin() {
-        String username = usernameField.getText();
-        String password = passwordField.getText();
+        String username = usernameField.getText().trim();
+        String password = passwordField.getText().trim();
 
         // Validation logic to ensure fields are not empty
         if (username.isEmpty() || password.isEmpty()) {
@@ -73,7 +73,7 @@ public class LoginController {
             statusLabel.setStyle("-fx-text-fill: red;");
         }
     }
-
+    @FXML
     private void handleContinueAsGuest() {
         try {
             // Load the Guest Dashboard FXML file
@@ -93,7 +93,7 @@ public class LoginController {
             statusLabel.setStyle("-fx-text-fill: red;");
         }
     }
-
+    @FXML
     private void loadDashboardByRole(Role role) {
         try {
             // Determine the FXML file to load based on the user's role
