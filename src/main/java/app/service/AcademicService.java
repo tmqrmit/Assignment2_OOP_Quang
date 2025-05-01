@@ -38,16 +38,6 @@ public class AcademicService {
     }
 
     /**
-     * Find an Academic entity by its ID.
-     *
-     * @param id the ID of the Academic
-     * @return the Academic, or null if not found
-     */
-    public Academic findById(Long id) {
-        return entityManager.find(Academic.class, id);
-    }
-
-    /**
      * Find an Academic entity by its personId.
      *
      * @param personId the personId of the Academic
@@ -85,12 +75,12 @@ public class AcademicService {
     }
 
     /**
-     * Delete an Academic entity by its ID.
+     * Delete an Academic entity by its personID.
      *
-     * @param id the ID of the Academic
+     * @param personId the ID of the Academic
      */
-    public void deleteById(Long id) {
-        Academic academic = findById(id);
+    public void removeAcademic(String personId) {
+        Academic academic = findByPersonId(personId);
         if (academic != null) {
             entityManager.remove(academic);
         }
@@ -99,18 +89,18 @@ public class AcademicService {
     /**
      * Update an existing Academic entity in the database.
      *
-     * Ensure an update does not violate unique constraints on `personId`. If
-     * the updated `personId` already belongs to another Academic, an exception is thrown.
+     *
+     *
      *
      * @param academic the Academic with updated data
      * @return the updated Academic
      * @throws IllegalArgumentException if the updated `personId` already exists in another record
      */
     public Academic updateAcademic(Academic academic) {
-        // Check for duplicate `personId` with a different `id`
+
         Academic existingAcademic = findByPersonId(academic.getPersonId());
-        if (existingAcademic != null && !existingAcademic.getPersonId().equals(academic.getPersonId())) {
-            throw new IllegalArgumentException("An academic with personId " + academic.getPersonId() + " already exists.");
+        if (existingAcademic == null) {
+            throw new IllegalArgumentException("Academic with personId " + academic.getPersonId() + " does not exist.");
         }
         return entityManager.merge(academic);
     }

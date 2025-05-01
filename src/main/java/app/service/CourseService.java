@@ -76,8 +76,8 @@ public class CourseService {
         if (existingCourse == null) {
             throw new IllegalArgumentException("Course with ID " + course.getCourseId() + " does not exist.");
         }
-        existingCourse.setAcademicId(course.getAcademicId());
-        existingCourse.setStudentIds(course.getStudentIds());
+
+        entityManager.merge(course);
         return existingCourse;
     }
 
@@ -110,6 +110,7 @@ public class CourseService {
             throw new IllegalArgumentException("Student with ID " + studentId + " is already enrolled in the course.");
         }
         course.addStudentId(studentId);
+        entityManager.merge(course);
     }
 
     /**
@@ -128,5 +129,23 @@ public class CourseService {
             throw new IllegalArgumentException("Student with ID " + studentId + " is not enrolled in the course.");
         }
         course.removeStudentId(studentId);
+        entityManager.merge(course);
     }
+
+    /**
+     * Check if there are any courses that relate a student to an academic.
+     *
+     * @param studentId  the personId of the student
+     * @param academicId the personId of the academic
+     * @return true if there is at least one course that relates the student to the academic, false otherwise
+     */
+    public boolean hasCourseRelatingStudentToAcademic(String studentId, String academicId) {
+        // Retrieve all courses from the database
+        List<Course> allCourses = findAllCourses();
+
+        // Check if any course has the given academic and includes the student in its enrollment
+        return allCourses.stream()
+                .anyMatch(course -> course.getAcademicId().equals(academicId) && course.isStudentEnrolled(studentId));
+    }
+
 }

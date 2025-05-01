@@ -2,7 +2,9 @@ package app.model;
 
 import app.model.enums.LendingRecordStatus;
 import app.model.enums.approvalStatus;
+import app.service.AcademicService;
 import app.service.LendingService;
+import app.service.StudentService;
 import app.util.StringSetConverter;
 import jakarta.persistence.*;
 import java.util.Date;
@@ -134,25 +136,13 @@ public class LendingRecord {
 
     // Utility Methods
     public boolean isOverdue() {
-        return returnDate != null && returnDate.before(new Date()) && status == LendingRecordStatus.BORROWED;
-    }
-
-    @PrePersist
-    @PreUpdate
-    private void validateDates() {
-        if (borrowDate != null && returnDate != null) {
-            if (borrowDate.after(returnDate)) {
-                throw new IllegalArgumentException("BorrowDate cannot be after ReturnDate.");
-            }
-
-            long millisecondsDifference = returnDate.getTime() - borrowDate.getTime();
-            long daysDifference = millisecondsDifference / (1000 * 60 * 60 * 24);
-
-            if (daysDifference > 14) {
-                throw new IllegalArgumentException("ReturnDate cannot be more than 2 weeks after BorrowDate.");
-            }
+        if(returnDate != null && returnDate.before(new Date()) && status == LendingRecordStatus.BORROWED) {
+            this.status = LendingRecordStatus.OVERDUE;
+            return true;
         }
+        return false;
     }
+
 
 
     // Overrides

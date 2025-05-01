@@ -17,6 +17,9 @@ public class Course {
     @Column(name = "course_id", nullable = false, unique = true)
     private String courseId;
 
+    // Course name
+    @Column(name = "course_name", nullable = false)
+    private String courseName;
 
     // Academic ID (mapped directly as a String rather than as an entity relationship)
     @Column(name = "academic_id", nullable = false)
@@ -34,8 +37,9 @@ public class Course {
     // Constructors
     public Course() {}
 
-    public Course(String courseId, String academicId) {
+    public Course(String courseId, String courseName, String academicId) {
         this.courseId = courseId;
+        this.courseName = courseName;
         this.academicId = academicId;
         this.studentIds = new HashSet<>();
     }
@@ -47,6 +51,15 @@ public class Course {
 
     public void setCourseId(String courseId) {
         this.courseId = courseId;
+    }
+
+    // Getter and Setter for course name
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 
     // Getter and Setter for academicId

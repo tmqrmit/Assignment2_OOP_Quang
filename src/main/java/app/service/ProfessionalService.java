@@ -60,6 +60,10 @@ public class ProfessionalService {
      * @return the updated Professional object
      */
     public Professional updateProfessional(Professional professional) {
+        Professional found = findByPersonId(professional.getPersonId());
+        if (found == null) {
+            throw new IllegalArgumentException("Professional with personId " + professional.getPersonId() + " does not exist.");
+        }
         return entityManager.merge(professional);
     }
 

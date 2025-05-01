@@ -215,5 +215,6 @@ public class GuestDashboardController {
     private void displayEquipment(List<Equipment> equipmentList) {
         ObservableList<Equipment> observableEquipment = FXCollections.observableArrayList(equipmentList);
         equipmentTable.setItems(observableEquipment);
+        setUpViewImageColumn();
     }
 }

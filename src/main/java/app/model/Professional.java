@@ -12,8 +12,6 @@ import java.util.Date;
 @Table(name = "professional_staff")
 public class Professional extends Staff {
 
-    private String academicId;
-
     @Column(name = "department", nullable = false)
     private String department;
 
@@ -33,10 +31,9 @@ public class Professional extends Staff {
      * @param staffId    The unique staff ID.
      * @param department The department where the staff member works.
      */
-    public Professional(String personId, String academicId, String fullName, Date dateOfBirth,
+    public Professional(String personId, String fullName, Date dateOfBirth,
                         String email, String phoneNumber, String staffId, String department) {
         super(personId, fullName, dateOfBirth, email, phoneNumber, staffId);
-        this.academicId = academicId;
         this.department = department;
     }
 

@@ -85,50 +85,15 @@ public class StudentService {
     /**
      * Remove a Student entity by studentId.
      *
-     * @param studentId the studentId of the Student to delete
+     * @param personId the studentId of the Student to delete
      */
-    public void deleteStudentByStudentId(String studentId) {
-        Student student = findByPersonId(studentId);
+    public void deleteByPersonId(String personId) {
+        Student student = findByPersonId(personId);
         if (student != null) {
             entityManager.remove(student);
         }
     }
 
-    /**
-     * Process a lending request for a Student.
-     *
-     * Performs validations to ensure the lending request can proceed.
-     *
-     * @param studentId       the studentId of the borrower
-     * @param lendingRecord   the LendingRecord object
-     * @param courseToBorrowFor the Course object the student is borrowing for
-     * @throws IllegalArgumentException if validations fail
-     */
-    public void processLendingRequest(String studentId, LendingRecord lendingRecord, Course courseToBorrowFor) {
-        Student student = findByPersonId(studentId);
-        if (student == null) {
-            throw new IllegalArgumentException("Student with ID " + studentId + " does not exist.");
-        }
-
-        if (lendingRecord == null) {
-            throw new IllegalArgumentException("Lending record cannot be null.");
-        }
-
-        if (lendingRecord.getResponsibleAcademic() == null) {
-            throw new IllegalArgumentException("Responsible academic for lending record cannot be null.");
-        }
-
-        if (!courseToBorrowFor.isStudentEnrolled(student.getStudentId())) {
-            throw new IllegalArgumentException("Student with ID " + student.getStudentId() + " is not enrolled in the course.");
-        }
-
-        if (!courseToBorrowFor.getAcademicId().equals(lendingRecord.getResponsibleAcademic())) {
-            throw new IllegalArgumentException("Lending must be approved by the academic responsible for the course.");
-        }
-
-        student.addLendingRecord(lendingRecord.getRecordId());
-        saveStudent(student); // Update student with new lending record
-    }
 
     /**
      * Retrieve all lending records of a Student by studentId.
@@ -144,19 +109,4 @@ public class StudentService {
         return List.copyOf(student.getLendingRecords());
     }
 
-    /**
-     * Remove a lending record from a student's record by studentId.
-     *
-     * @param studentId       the studentId of the Student
-     * @param lendingRecordId the ID of the lending record to remove
-     * @throws IllegalArgumentException if Student or lending record is not found
-     */
-    public void removeLendingRecord(String studentId, String lendingRecordId) {
-        Student student = findByPersonId(studentId);
-        if (student == null) {
-            throw new IllegalArgumentException("Student with ID " + studentId + " does not exist.");
-        }
-        student.removeLendingRecord(lendingRecordId);
-        saveStudent(student); // Update student
-    }
 }
