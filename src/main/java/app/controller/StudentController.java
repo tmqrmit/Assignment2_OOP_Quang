@@ -2,6 +2,7 @@ package app.controller;
 
 import app.model.AppUser;
 import app.model.Student;
+import app.service.LendingService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -76,6 +77,34 @@ public class StudentController {
             popupStage.showAndWait();
         } catch (IOException e) {
             // Log or handle the exception appropriately
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleViewRecords() {
+        try {
+            // Load the FXML for the popup window
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/student_view_records.fxml"));
+            Parent root = loader.load();
+
+            // Get the popup controller and initialize it with necessary data
+            StudentViewRecordsController controller = loader.getController();
+
+            controller.initialize(appUser); // Pass appUser and LendingService
+
+            // Create a new stage for the popup
+            Stage popupStage = new Stage();
+            popupStage.setTitle("View Lending Records");
+
+            // Set the scene for the popup stage
+            popupStage.setScene(new Scene(root));
+            popupStage.initModality(Modality.APPLICATION_MODAL); // Set modality to block interaction with other windows
+
+            // Show the popup and wait until it's closed
+            popupStage.showAndWait();
+        } catch (IOException e) {
+            // Log or display the error if FXML or other initialization fails
             e.printStackTrace();
         }
     }

@@ -44,6 +44,9 @@ public class StudentLendingRequestController {
     private TextField courseIdField;
 
     @FXML
+    private TextField purposeField;
+
+    @FXML
     public void initialize(AppUser appUser) {
         // Initialize the EntityManager
         EntityManager entityManager = Persistence.createEntityManagerFactory("your-persistence-unit").createEntityManager();
@@ -73,6 +76,7 @@ public class StudentLendingRequestController {
             LocalDate borrowDate = borrowDatePicker.getValue();
             LocalDate returnDate = returnDatePicker.getValue();
             String courseId = courseIdField.getText().trim();
+            String purpose = purposeField.getText().trim();
 
             // Find responsible academic
             String academicId = courseService.findByCourseId(courseId).getAcademicId();
@@ -97,7 +101,7 @@ public class StudentLendingRequestController {
                     java.sql.Date.valueOf(borrowDate),
                     java.sql.Date.valueOf(returnDate),
                     LendingRecordStatus.BORROWED, // Initial status
-                    "Student lending request"
+                    purpose
             );
 
             // Save the record
