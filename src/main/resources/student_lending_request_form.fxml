@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      spacing="10"
+      alignment="CENTER"
+      fx:controller="app.controller.StudentLendingRequestController">
+
+    <!-- Equipment IDs -->
+    <Label text="Equipment IDs (Comma-separated)" />
+    <TextField fx:id="equipmentIdsField" promptText="Enter Equipment IDs" />
+
+    <!-- Borrow Date -->
+    <Label text="Borrow Date" />
+    <DatePicker fx:id="borrowDatePicker" />
+
+    <!-- Return Date -->
+    <Label text="Return Date" />
+    <DatePicker fx:id="returnDatePicker" />
+
+    <!-- Academic ID -->
+    <Label text="Course ID" />
+    <TextField fx:id="courseIdField" promptText="Enter Course ID" />
+
+    <!-- Buttons -->
+    <HBox alignment="CENTER" spacing="10">
+        <Button text="Submit" onAction="#handleSubmit" />
+        <Button text="Cancel" onAction="#handleCancel" />
+    </HBox>
+</VBox>

@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 
 import java.util.List;
 
+@Transactional
 public class AppUserService {
 
     private final EntityManager entityManager;

@@ -5,9 +5,11 @@ import app.model.Student;
 import app.model.Course;
 
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 
+@Transactional
 public class StudentService {
 
     private final EntityManager entityManager;

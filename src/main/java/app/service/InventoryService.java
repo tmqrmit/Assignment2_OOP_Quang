@@ -3,9 +3,11 @@ package app.service;
 import app.model.Equipment;
 
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 
+@Transactional
 public class InventoryService {
 
     private final EntityManager entityManager;

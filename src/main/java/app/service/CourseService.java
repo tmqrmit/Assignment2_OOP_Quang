@@ -3,12 +3,14 @@ package app.service;
 import app.model.Course;
 
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 
 /**
  * Service layer for managing course operations.
  */
+@Transactional
 public class CourseService {
 
     private final EntityManager entityManager;

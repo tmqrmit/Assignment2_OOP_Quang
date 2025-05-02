@@ -4,10 +4,12 @@ import app.model.EquipmentImage;
 
 import jakarta.persistence.EntityManager;
 import java.util.Base64;
+import jakarta.transaction.Transactional;
 
 /**
  * Service class for handling operations related to EquipmentImage.
  */
+@Transactional
 public class EquipmentImageService {
     private final EntityManager entityManager;
 

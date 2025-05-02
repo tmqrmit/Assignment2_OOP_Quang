@@ -65,7 +65,7 @@ public class LoginController {
             statusLabel.setStyle("-fx-text-fill: green;");
 
             // Redirect to the user-specific dashboard based on their role
-            loadDashboardByRole(user.getRole());
+            loadDashboardByRole(user);
 
         } else {
             // Invalid login
@@ -94,11 +94,11 @@ public class LoginController {
         }
     }
     @FXML
-    private void loadDashboardByRole(Role role) {
+    private void loadDashboardByRole(AppUser appUser) {
         try {
             // Determine the FXML file to load based on the user's role
             String fxmlFile;
-            switch (role) {
+            switch (appUser.getRole()) {
                 case STUDENT -> fxmlFile = "/student_dashboard.fxml";
                 case ACADEMIC -> fxmlFile = "/teacher_dashboard.fxml";
                 case ADMIN -> fxmlFile = "/admin_dashboard.fxml";
@@ -110,17 +110,25 @@ public class LoginController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
             Parent dashboard = loader.load();
 
+            // Access the dashboard's controller
+            Object controller = loader.getController();
+
+            // Get the AppUser object
+            if (controller instanceof StudentController) {
+                ((StudentController) controller).initialize(appUser);
+            }
+
             // Get the current stage from the login form's scene
             Stage stage = (Stage) usernameField.getScene().getWindow();
 
             // Set the new scene for the dashboard
             Scene scene = new Scene(dashboard);
             stage.setScene(scene);
-            stage.setTitle(role + " Dashboard"); // Set the window's title to match the role
+            stage.setTitle(appUser.getRole() + " Dashboard"); // Set the window's title to match the role
         } catch (Exception e) {
             e.printStackTrace();
             // Show an error message if the dashboard fails to load
-            statusLabel.setText("Failed to load the dashboard for role: " + role);
+            statusLabel.setText("Failed to load the dashboard for role: " + appUser.getRole());
             statusLabel.setStyle("-fx-text-fill: red;");
         }
     }

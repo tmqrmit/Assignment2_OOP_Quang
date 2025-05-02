@@ -3,8 +3,11 @@ package app.service;
 import app.model.Professional;
 
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
+
 import java.util.List;
 
+@Transactional
 public class ProfessionalService {
 
     private final EntityManager entityManager;

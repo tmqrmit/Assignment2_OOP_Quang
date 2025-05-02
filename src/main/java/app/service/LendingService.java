@@ -9,13 +9,15 @@ import app.model.enums.LendingRecordStatus;
 import app.model.enums.approvalStatus;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.Persistence;
+import jakarta.transaction.Transactional;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Transactional
 public class LendingService {
 
     private final EntityManager entityManager;
@@ -37,6 +39,17 @@ public class LendingService {
         this.academicService = academicService;
         this.courseService = courseService;
     }
+
+    public LendingService() {
+        // Initialize the necessary dependencies manually
+        this.entityManager = Persistence.createEntityManagerFactory("your-persistence-unit").createEntityManager();
+        this.inventoryService = new InventoryService(entityManager);
+        this.studentService = new StudentService(entityManager);
+        this.academicService = new AcademicService(entityManager);
+        this.courseService = new CourseService(entityManager);
+    }
+
+
 
     /**
      * Generates a unique record ID for LendingRecord.
@@ -83,9 +96,24 @@ public class LendingService {
      * @param lendingRecord The LendingRecord to save.
      */
     public void saveRecord(LendingRecord lendingRecord) {
-            entityManager.persist(lendingRecord);
-    }
+        try {
+            // Begin the transaction
+            entityManager.getTransaction().begin();
 
+            // Persist the record
+            entityManager.persist(lendingRecord);
+
+            // Commit the transaction
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            // Rollback the transaction in case of failure
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+            // Optionally rethrow or handle the exception
+            throw e;
+        }
+    }
     /**
      * Update an existing LendingRecord.
      *
