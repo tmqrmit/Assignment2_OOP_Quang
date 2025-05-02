@@ -155,7 +155,8 @@ public class LendingService {
         if (borrowDate != null && returnDate != null) {
             // Check if the borrowing date is after the return date
             if (borrowDate.after(returnDate)) {
-                throw new IllegalArgumentException("The borrow date cannot be after the return date.");
+//                throw new IllegalArgumentException("The borrow date cannot be after the return date.");
+                return false;
             }
 
             // Calculate the difference in days between the borrow and return date
@@ -164,7 +165,8 @@ public class LendingService {
 
             if (daysDifference > 14) {
                 // Reject if a student is borrowing for more than 14 days
-                throw new IllegalArgumentException("The student is currently borrowing for more than 14 days. Please try again later.");
+//                throw new IllegalArgumentException("The student is currently borrowing for more than 14 days. Please try again later.");
+                return false;
             }
         }
 

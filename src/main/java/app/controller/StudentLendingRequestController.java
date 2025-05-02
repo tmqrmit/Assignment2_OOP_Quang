@@ -1,6 +1,7 @@
 package app.controller;
 
 import app.model.AppUser;
+import app.model.Course;
 import app.model.LendingRecord;
 import app.model.Student;
 import app.model.enums.LendingRecordStatus;
@@ -78,8 +79,21 @@ public class StudentLendingRequestController {
             String courseId = courseIdField.getText().trim();
             String purpose = purposeField.getText().trim();
 
-            // Find responsible academic
-            String academicId = courseService.findByCourseId(courseId).getAcademicId();
+            // Find course
+            Course course = courseService.findByCourseId(courseId);
+            // Check if course exists
+            if (course == null) {
+                showAlert("Error", "Course not found. Student must be enrolled in a course to submit a lending request.", Alert.AlertType.INFORMATION);
+                return;
+            }
+
+            // Validate dates
+            if (!lendingService.validateDates(student.getPersonId(), java.sql.Date.valueOf(borrowDate), java.sql.Date.valueOf(returnDate))) {
+                showAlert("Error", "Students should not borrow for more than 2 weeks ", Alert.AlertType.INFORMATION);
+                return;
+            }
+
+            String academicId = course.getAcademicId();
 
             if (equipmentIdsInput.isEmpty() || borrowDate == null || returnDate == null || academicId.isEmpty()) {
                 showAlert("Error", "All fields are required!", Alert.AlertType.ERROR);
