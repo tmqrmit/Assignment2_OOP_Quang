@@ -81,9 +81,16 @@ public class StudentLendingRequestController {
 
             // Find course
             Course course = courseService.findByCourseId(courseId);
+
             // Check if course exists
             if (course == null) {
                 showAlert("Error", "Course not found. Student must be enrolled in a course to submit a lending request.", Alert.AlertType.INFORMATION);
+                return;
+            }
+
+            // Check if student is enrolled in the course
+            if (!course.isStudentEnrolled(student.getPersonId())) {
+                showAlert("Error", "Student is not enrolled in the course. Please contact the course coordinator.", Alert.AlertType.INFORMATION);
                 return;
             }
 

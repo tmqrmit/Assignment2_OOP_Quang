@@ -5,6 +5,7 @@ import app.model.Student;
 import app.model.Course;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import jakarta.transaction.Transactional;
 
 import java.util.List;
@@ -69,19 +70,23 @@ public class StudentService {
     /**
      * Update an existing Student entity.
      *
-     * Ensures updated studentId does not conflict with existing records.
+     *
      *
      * @param student the Student to update
-     * @return the updated Student entity
-     * @throws IllegalArgumentException if the updated studentId already exists in another record
+     * @return void
+     *
      */
-    public Student updateStudent(Student student) {
-        // Check for duplicate studentId with a different Student
-        Student existingStudent = findByPersonId(student.getStudentId());
-        if (existingStudent != null && !existingStudent.getPersonId().equals(student.getPersonId())) {
-            throw new IllegalArgumentException("Student with studentId " + student.getStudentId() + " already exists.");
+    public void updateStudent(Student student) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            entityManager.merge(student);
+            System.out.println("Student updated successfully");
+            transaction.commit();
+        } catch (Exception e) {
+            transaction.rollback();
+            throw e;
         }
-        return entityManager.merge(student);
     }
 
     /**

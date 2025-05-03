@@ -1,5 +1,6 @@
 package app.model;
 
+import app.util.StringSetConverter;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -25,13 +26,14 @@ public class Course {
     @Column(name = "academic_id", nullable = false)
     private String academicId;
 
-    // A Set of Student IDs associated with the course
-    @ElementCollection // Represents a collection of basic types (here, student IDs)
-    @CollectionTable(
-            name = "course_students", // Join table for mapping student IDs
-            joinColumns = @JoinColumn(name = "course_id") // Foreign key linking to 'courses' table
-    )
-    @Column(name = "student_id") // Column name for student IDs in the join table
+//    // A Set of Student IDs associated with the course
+//    @ElementCollection // Represents a collection of basic types (here, student IDs)
+//    @CollectionTable(
+//            name = "course_students", // Join table for mapping student IDs
+//            joinColumns = @JoinColumn(name = "course_id") // Foreign key linking to 'courses' table
+//    )
+    @Convert(converter = StringSetConverter.class)
+    @Column(name = "student_ids", columnDefinition = "TEXT") // Or VARCHAR(255)
     private Set<String> studentIds = new HashSet<>();
 
     // Constructors

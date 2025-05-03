@@ -104,6 +104,10 @@ public class StudentViewRecordsController {
                 if (course != null) {
                     academicId = course.getAcademicId();
                 }
+                else {
+                    showAlert(Alert.AlertType.ERROR, "Error", "Course not found.");
+                    return;
+                }
             }
 
             // Convert LocalDate to java.util.Date

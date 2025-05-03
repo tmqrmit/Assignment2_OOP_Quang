@@ -3,6 +3,7 @@ package app.controller;
 import app.model.AppUser;
 import app.model.Student;
 import app.service.LendingService;
+import app.util.LogoutHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,7 +13,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.IOException;
 
-public class StudentController {
+public class StudentController implements LogoutHandler {
 
     private AppUser appUser;
 
@@ -108,4 +109,34 @@ public class StudentController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    private void handleProfileManagement() {
+        try {
+            // Load the profile management FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/student_profile_management.fxml"));
+            Parent root = loader.load();
+
+            // Get the controller and pass the appUser
+            StudentProfileManagementController controller = loader.getController();
+            controller.initialize(appUser);  // Pass the logged-in user to the controller
+
+            // Create a popup stage
+            Stage popupStage = new Stage();
+            popupStage.setTitle("Manage Profile");
+            popupStage.setScene(new Scene(root));
+            popupStage.initModality(Modality.APPLICATION_MODAL);  // Modal window
+            popupStage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Optionally, show an alert if the FXML fails to load
+        }
+    }
+
+    @FXML
+    private void handleLogout() {
+        logout(welcomeLabel); // Call the default method from the interface
+    }
+
 }
