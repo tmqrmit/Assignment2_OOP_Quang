@@ -27,6 +27,7 @@ public class StudentViewRecordsController {
     @FXML private TableColumn<LendingRecord, String> borrowDateColumn;
     @FXML private TableColumn<LendingRecord, String> returnDateColumn;
     @FXML private TableColumn<LendingRecord, String> equipmentColumn;
+    @FXML private TableColumn<LendingRecord, String> purposeColumn;
     @FXML private TableColumn<LendingRecord, String> statusColumn;
     @FXML private TableColumn<LendingRecord, String> approvalColumn;
 
@@ -74,6 +75,7 @@ public class StudentViewRecordsController {
             String joined = equipmentSet != null ? String.join(", ", equipmentSet) : "";
             return new SimpleStringProperty(joined);
         });
+        purposeColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getPurpose()));
         statusColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getStatus().name()));
         approvalColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getApprovalStatus().name()));
     }

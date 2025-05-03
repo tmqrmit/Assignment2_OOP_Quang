@@ -42,6 +42,9 @@ public class GuestDashboardController {
     private TableView<Equipment> equipmentTable;
 
     @FXML
+    private TableColumn<Equipment, String> colID;
+
+    @FXML
     private TableColumn<Equipment, String> colName;
 
     @FXML
@@ -68,6 +71,7 @@ public class GuestDashboardController {
         equipmentImageService = new EquipmentImageService(em);
 
         // Initialize table columns
+        colID.setCellValueFactory(new PropertyValueFactory<>("equipmentId"));
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
         colPurchaseDate.setCellValueFactory(cellData -> {

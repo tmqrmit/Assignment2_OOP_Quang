@@ -66,11 +66,12 @@
         </VBox>
 
         <!-- Equipment Table -->
-        <TableView fx:id="equipmentTable" prefHeight="300" prefWidth="580">
+        <TableView fx:id="equipmentTable" prefHeight="300" prefWidth="500">
             <columns>
-                <TableColumn fx:id="colName" text="Name" prefWidth="150" />
+                <TableColumn fx:id="colID" text="ID" prefWidth="80" />
+                <TableColumn fx:id="colName" text="Name" prefWidth="100" />
                 <TableColumn fx:id="colStatus" text="Status" prefWidth="100" />
-                <TableColumn fx:id="colPurchaseDate" text="Purchase Date" prefWidth="150" />
+                <TableColumn fx:id="colPurchaseDate" text="Purchase Date" prefWidth="100" />
                 <TableColumn fx:id="colCondition" text="Condition" prefWidth="100" />
                 <TableColumn fx:id="colViewImage" text="View Image" prefWidth="100" />
             </columns>

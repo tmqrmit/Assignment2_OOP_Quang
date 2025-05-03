@@ -80,6 +80,7 @@
                 <TableColumn fx:id="borrowDateColumn" text="Borrow Date" prefWidth="150.0"/>
                 <TableColumn fx:id="returnDateColumn" text="Return Date" prefWidth="150.0"/>
                 <TableColumn fx:id="equipmentColumn" text="Equipment IDs (comma-separated)" prefWidth="150.0"/>
+                <TableColumn fx:id="purposeColumn" text="Purpose" prefWidth="150.0"/>
                 <TableColumn fx:id="statusColumn" text="Status" prefWidth="100.0"/>
                 <TableColumn fx:id="approvalColumn" text="Approval" prefWidth="100.0"/>
             </columns>
