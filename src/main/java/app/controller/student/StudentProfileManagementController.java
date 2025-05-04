@@ -1,4 +1,4 @@
-package app.controller;
+package app.controller.student;
 
 import app.model.AppUser;
 import app.model.Student;

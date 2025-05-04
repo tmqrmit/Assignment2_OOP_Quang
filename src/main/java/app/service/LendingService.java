@@ -88,6 +88,22 @@ public class LendingService {
                 .getResultList();
     }
 
+    /**
+     * Checks all lending records and updates their status to OVERDUE if they are overdue.
+     */
+    public void checkOverdueRecords() {
+        List<LendingRecord> allRecords = findAllLendingRecords();
+
+        entityManager.getTransaction().begin();
+        for (LendingRecord record : allRecords) {
+            if (record.isOverdue() && record.getApprovalStatus() == approvalStatus.APPROVED) {
+                entityManager.merge(record);
+            }
+        }
+        entityManager.getTransaction().commit();
+    }
+
+
     // ================= Methods to Save and Update LendingRecords =================
 
     /**
@@ -255,17 +271,7 @@ public class LendingService {
             }
 
             // Resolve equipment from IDs and set their status to BORROWED
-            lendingRecord.getBorrowedEquipment().forEach(equipmentId -> {
-                // Find the Equipment object by its ID
-                var equipment = inventoryService.findByEquipmentId(equipmentId);
-                if (equipment != null) {
-                    // Set status to BORROWED
-                    equipment.setStatus(EquipmentStatus.BORROWED);
-                    inventoryService.updateEquipment(equipment); // Save equipment status
-                } else {
-                    throw new IllegalArgumentException("Equipment with ID " + equipmentId + " not found.");
-                }
-            });
+            setAllEquipmentToBorrowed(lendingRecord.getBorrowedEquipment());
 
             // Approve the lending record by updating its approval status
             lendingRecord.setApprovalStatus(approvalStatus.APPROVED);
@@ -439,6 +445,23 @@ public class LendingService {
         entityManager.createQuery("DELETE FROM LendingRecord lr WHERE lr.approval_status = :status")
                 .setParameter("status", approvalStatus.PENDING)
                 .executeUpdate();
+    }
+
+    /**
+     * Turn every equipment in the list to BORROWED
+     */
+    public void setAllEquipmentToBorrowed(Set<String> equipmentList) {
+        equipmentList.forEach(equipmentId -> {
+            // Find the Equipment object by its ID
+            var equipment = inventoryService.findByEquipmentId(equipmentId);
+            if (equipment != null) {
+                // Set status to BORROWED
+                equipment.setStatus(EquipmentStatus.BORROWED);
+                inventoryService.updateEquipment(equipment); // Save equipment status
+            } else {
+                throw new IllegalArgumentException("Equipment with ID " + equipmentId + " not found.");
+            }
+        });
     }
 }
 

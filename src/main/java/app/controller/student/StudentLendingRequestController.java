@@ -1,11 +1,10 @@
-package app.controller;
+package app.controller.student;
 
 import app.model.AppUser;
 import app.model.Course;
 import app.model.LendingRecord;
 import app.model.Student;
 import app.model.enums.LendingRecordStatus;
-import app.model.enums.approvalStatus;
 import app.service.LendingService;
 import app.service.StudentService;
 import app.service.AcademicService;

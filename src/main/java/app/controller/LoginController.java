@@ -1,8 +1,10 @@
 package app.controller;
 
+import app.controller.academic.AcademicController;
+import app.controller.student.StudentController;
 import app.model.AppUser;
-import app.model.enums.Role; // Import Role enum for role-based logic
-import app.service.AppUserService;
+import app.service.*;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -64,6 +66,9 @@ public class LoginController {
             statusLabel.setText("Login successful!");
             statusLabel.setStyle("-fx-text-fill: green;");
 
+            // Check for overdue records at login
+            checkOverdueAtLogin();
+
             // Redirect to the user-specific dashboard based on their role
             loadDashboardByRole(user);
 
@@ -99,10 +104,10 @@ public class LoginController {
             // Determine the FXML file to load based on the user's role
             String fxmlFile;
             switch (appUser.getRole()) {
-                case STUDENT -> fxmlFile = "/student_dashboard.fxml";
-                case ACADEMIC -> fxmlFile = "/teacher_dashboard.fxml";
+                case STUDENT -> fxmlFile = "/student/student_dashboard.fxml";
+                case ACADEMIC -> fxmlFile = "/academic/academic_dashboard.fxml";
                 case ADMIN -> fxmlFile = "/admin_dashboard.fxml";
-                case PROFESSIONAL -> fxmlFile = "/admin_dashboard.fxml";
+                case PROFESSIONAL -> fxmlFile = "/professional_dashboard.fxml";
                 default -> fxmlFile = "/guest_dashboard.fxml";
             }
 
@@ -118,6 +123,12 @@ public class LoginController {
                 ((StudentController) controller).initialize(appUser);
             }
 
+            if (controller instanceof AcademicController) {
+                ((AcademicController) controller).initialize(appUser);
+            }
+
+
+
             // Get the current stage from the login form's scene
             Stage stage = (Stage) usernameField.getScene().getWindow();
 
@@ -132,4 +143,20 @@ public class LoginController {
             statusLabel.setStyle("-fx-text-fill: red;");
         }
     }
+
+    private void checkOverdueAtLogin() {
+        // Check for lending records as soon as user logs in
+        EntityManager entityManager = Persistence
+                .createEntityManagerFactory("your-persistence-unit")
+                .createEntityManager();
+
+        InventoryService inventoryService = new InventoryService(entityManager);
+        StudentService studentService = new StudentService(entityManager);
+        AcademicService academicService = new AcademicService(entityManager);
+        CourseService courseService = new CourseService(entityManager);
+
+        LendingService lendingService = new LendingService(entityManager, inventoryService, studentService, academicService, courseService);
+        lendingService.checkOverdueRecords();
+    }
+
 }

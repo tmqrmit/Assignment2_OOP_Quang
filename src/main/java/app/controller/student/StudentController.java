@@ -1,9 +1,11 @@
-package app.controller;
+package app.controller.student;
 
 import app.model.AppUser;
 import app.model.Student;
-import app.service.LendingService;
+import app.service.StudentService;
 import app.util.LogoutHandler;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Persistence;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,7 +25,12 @@ public class StudentController implements LogoutHandler {
     @FXML
     public void initialize(AppUser appUser) {
         this.appUser = appUser;
-        welcomeLabel.setText("Welcome, " + appUser.getUsername() + " !");
+        EntityManager entityManager = Persistence
+                .createEntityManagerFactory("your-persistence-unit")
+                .createEntityManager();
+        StudentService studentService = new StudentService(entityManager);
+        Student student = studentService.findByPersonId(appUser.getPersonId());
+        welcomeLabel.setText("Welcome, " + student.getFullName() + " !");
     }
 
     @FXML
@@ -57,7 +64,7 @@ public class StudentController implements LogoutHandler {
     private void handleLendingRequest() {
         try {
             // Load the FXML file for the lending request form
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/student_lending_request_form.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/student/student_lending_request_form.fxml"));
             Parent root = loader.load();
 
             // Initialize controller
@@ -86,7 +93,7 @@ public class StudentController implements LogoutHandler {
     private void handleViewRecords() {
         try {
             // Load the FXML for the popup window
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/student_view_records.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/student/student_view_records.fxml"));
             Parent root = loader.load();
 
             // Get the popup controller and initialize it with necessary data
@@ -114,7 +121,7 @@ public class StudentController implements LogoutHandler {
     private void handleProfileManagement() {
         try {
             // Load the profile management FXML
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/student_profile_management.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/student/student_profile_management.fxml"));
             Parent root = loader.load();
 
             // Get the controller and pass the appUser

@@ -3,6 +3,7 @@ package app.service;
 import app.model.Equipment;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import jakarta.transaction.Transactional;
 
 import java.util.List;
@@ -77,12 +78,26 @@ public class InventoryService {
      * @throws IllegalArgumentException if the updated equipmentId already exists in another record
      */
     public Equipment updateEquipment(Equipment equipment) {
-        // Check for duplicate equipmentId
-        Equipment existingEquipment = findByEquipmentId(equipment.getEquipmentId());
-        if (existingEquipment != null && !existingEquipment.getEquipmentId().equals(equipment.getEquipmentId())) {
-            throw new IllegalArgumentException("Equipment with equipmentId " + equipment.getEquipmentId() + " already exists.");
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+
+            // Check for duplicate equipmentId
+            Equipment existingEquipment = findByEquipmentId(equipment.getEquipmentId());
+            if (existingEquipment != null && !existingEquipment.getEquipmentId().equals(equipment.getEquipmentId())) {
+                throw new IllegalArgumentException("Equipment with equipmentId " + equipment.getEquipmentId() + " already exists.");
+            }
+
+            Equipment updatedEquipment = entityManager.merge(equipment);
+
+            transaction.commit();
+            return updatedEquipment;
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw e;
         }
-        return entityManager.merge(equipment);
     }
 
     /**
@@ -91,9 +106,21 @@ public class InventoryService {
      * @param equipmentId the equipmentId of the Equipment to delete
      */
     public void deleteById(String equipmentId) {
-        Equipment equipment = findByEquipmentId(equipmentId);
-        if (equipment != null) {
-            entityManager.remove(equipment);
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+
+            Equipment equipment = findByEquipmentId(equipmentId);
+            if (equipment != null) {
+                entityManager.remove(equipment);
+            }
+
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw e;
         }
     }
 }
