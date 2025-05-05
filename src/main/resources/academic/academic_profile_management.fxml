@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="app.controller.academic.AcademicProfileManagementController">
+    <VBox alignment="CENTER" spacing="15.0" AnchorPane.topAnchor="20" AnchorPane.bottomAnchor="20"
+          AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
+
+        <Text text="Update Profile" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+
+        <GridPane hgap="15" vgap="15">
+            <columnConstraints>
+                <ColumnConstraints halignment="RIGHT" />
+                <ColumnConstraints hgrow="ALWAYS" />
+            </columnConstraints>
+
+            <Label text="Date of Birth:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+            <DatePicker fx:id="datePickerDOB" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+            <Label text="Email:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+            <TextField fx:id="emailField" promptText="Enter email" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+
+            <Label text="Phone Number:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+            <TextField fx:id="phoneField" promptText="Enter phone number" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+        </GridPane>
+
+        <Button text="Save Changes" onAction="#handleSaveChanges" style="-fx-font-size: 14px;" />
+    </VBox>
+</AnchorPane>

@@ -56,6 +56,14 @@ public class CourseService {
     }
 
     /**
+     * Find course by academicId
+     */
+    public long getCourseCountByAcademicId(String academicId) {
+        return entityManager.createQuery("SELECT COUNT(c) FROM Course c WHERE c.academicId = :academicId", Long.class)
+                .setParameter("academicId", academicId)
+                .getSingleResult();
+    }
+    /**
      * Retrieve all Course entities.
      *
      * @return a list of all Courses

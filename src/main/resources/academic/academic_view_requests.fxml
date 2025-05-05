@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+
+<?import javafx.util.Callback?>
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="app.controller.academic.AcademicViewRequestsController">
+    <children>
+
+        <!-- Title -->
+        <Label layoutX="20.0" layoutY="10.0" text="Student Lending Requests"
+               style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+
+        <!-- Filter Section -->
+        <VBox layoutX="20.0" layoutY="40.0" spacing="10.0">
+            <children>
+                <!-- First Row -->
+                <HBox spacing="10.0">
+                    <children>
+                        <Label text="Student ID:"/>
+                        <TextField fx:id="studentIdField" promptText="Enter Student ID"/>
+
+                        <Label text="Borrow Start:"/>
+                        <DatePicker fx:id="borrowStartPicker"/>
+
+                        <Label text="Borrow End:"/>
+                        <DatePicker fx:id="borrowEndPicker"/>
+                    </children>
+                </HBox>
+
+                <!-- Second Row -->
+                <HBox spacing="10.0">
+                    <children>
+                        <Label text="Return Start:"/>
+                        <DatePicker fx:id="returnStartPicker"/>
+
+                        <Label text="Return End:"/>
+                        <DatePicker fx:id="returnEndPicker"/>
+
+                        <Label text="Status:"/>
+                        <ComboBox fx:id="statusComboBox">
+                            <items>
+                                <FXCollections fx:factory="observableArrayList">
+                                    <String fx:value="Any"/>
+                                    <String fx:value="BORROWED"/>
+                                    <String fx:value="RETURNED"/>
+                                    <String fx:value="OVERDUE"/>
+                                </FXCollections>
+                            </items>
+                        </ComboBox>
+
+                    </children>
+                </HBox>
+
+                <!-- Buttons -->
+                <HBox spacing="10.0">
+                    <children>
+                        <Button text="Apply Filters" onAction="#loadLendingRequests"/>
+                        <Button text="Close" onAction="#handleCloseWindow"/>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+
+        <!-- Table View -->
+        <TableView fx:id="recordsTableView" layoutX="20.0" layoutY="220.0" prefWidth="1000.0" prefHeight="300.0">
+            <columns>
+                <TableColumn fx:id="studentIdColumn" text="Student ID" prefWidth="100.0"/>
+                <TableColumn fx:id="borrowDateColumn" text="Borrow Date" prefWidth="120.0"/>
+                <TableColumn fx:id="returnDateColumn" text="Return Date" prefWidth="120.0"/>
+                <TableColumn fx:id="equipmentColumn" text="Equipment IDs" prefWidth="180.0"/>
+                <TableColumn fx:id="purposeColumn" text="Purpose" prefWidth="150.0"/>
+                <TableColumn fx:id="statusColumn" text="Status" prefWidth="100.0"/>
+                <TableColumn fx:id="approvalColumn" text="Approval" prefWidth="100.0"/>
+                <TableColumn fx:id="actionColumn" text="Actions" prefWidth="130.0">
+<!--                    <cellFactory>-->
+<!--                        <Callback fx:factory="app.controller.academic.ApproveDeclineCellFactory"/>-->
+<!--                    </cellFactory>-->
+                </TableColumn>
+            </columns>
+        </TableView>
+
+    </children>
+</AnchorPane>

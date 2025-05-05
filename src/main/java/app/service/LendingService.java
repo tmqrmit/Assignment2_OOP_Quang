@@ -9,6 +9,7 @@ import app.model.enums.LendingRecordStatus;
 import app.model.enums.approvalStatus;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 import jakarta.transaction.Transactional;
 
@@ -137,11 +138,57 @@ public class LendingService {
      * @return The updated LendingRecord.
      */
     public LendingRecord updateLendingRecord(LendingRecord lendingRecord) {
-            if(!validateDates(lendingRecord.getBorrower(), lendingRecord.getBorrowDate(), lendingRecord.getReturnDate())) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        boolean isNewTransaction = false;
+
+        try {
+            if (!validateDates(lendingRecord.getBorrower(), lendingRecord.getBorrowDate(), lendingRecord.getReturnDate())) {
                 throw new IllegalArgumentException("Invalid date(s) for lending record or student is borrowing for more than 14 days. Please try again.");
             }
+
+            if (!transaction.isActive()) {
+                transaction.begin();
+                isNewTransaction = true;
+            }
+
             LendingRecord updatedRecord = entityManager.merge(lendingRecord);
+
+            if (isNewTransaction) {
+                transaction.commit();
+            }
+
             return updatedRecord;
+
+        } catch (Exception e) {
+            if (isNewTransaction && transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw e;
+        }
+    }
+
+    /**
+     * Remove lending record
+     */
+
+    public void removeLendingRecord(LendingRecord lendingRecord) {
+        try {
+            // Begin the transaction
+            entityManager.getTransaction().begin();
+
+            // Persist the record
+            entityManager.remove(lendingRecord);
+
+            // Commit the transaction
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            // Rollback the transaction in case of failure
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+            // Optionally rethrow or handle the exception
+            throw e;
+        }
     }
 
     // ================= Additional Utility Methods =================
@@ -237,48 +284,54 @@ public class LendingService {
      * @return The LendingRecord after approval.
      */
     public LendingRecord approveLendingRecord(LendingRecord lendingRecord) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        boolean isNewTransaction = false;
+
+        try {
+            if (!transaction.isActive()) {
+                transaction.begin();
+                isNewTransaction = true;
+            }
 
             // Validate equipment
             validateEquipment(lendingRecord.getBorrowedEquipment());
 
-            // Get the borrower ID from the lending record
             String borrowerId = lendingRecord.getBorrower();
-
-            // Check if the borrower is a student
             Student student = studentService.findByPersonId(borrowerId);
 
             if (student != null) {
-
-                // Check if there's a course by the academic the student is enrolled in
-                if(!courseService.hasCourseRelatingStudentToAcademic(student.getPersonId(), lendingRecord.getResponsibleAcademic())) {
+                if (!courseService.hasCourseRelatingStudentToAcademic(student.getPersonId(), lendingRecord.getResponsibleAcademic())) {
                     throw new IllegalArgumentException("The student is not enrolled in a course related to the academic.");
                 }
 
-                // Validate dates
                 validateDates(borrowerId, lendingRecord.getBorrowDate(), lendingRecord.getReturnDate());
 
-                // Add the LendingRecord to the student's lending records
                 student.addLendingRecord(lendingRecord.getRecordId());
 
-                // Get the academic supervising the lending
                 Academic supervisor = academicService.findByPersonId(lendingRecord.getResponsibleAcademic());
-
-                // Add the student to the academic's supervised set
                 if (supervisor != null) {
                     supervisor.superviseStudent(student.getStudentId());
-                    academicService.updateAcademic(supervisor); // Save academic changes
+                    academicService.updateAcademic(supervisor);
                 }
             }
 
-            // Resolve equipment from IDs and set their status to BORROWED
             setAllEquipmentToBorrowed(lendingRecord.getBorrowedEquipment());
 
-            // Approve the lending record by updating its approval status
             lendingRecord.setApprovalStatus(approvalStatus.APPROVED);
             LendingRecord updatedRecord = updateLendingRecord(lendingRecord);
 
-            // Return the updated lending record
+            if (isNewTransaction) {
+                transaction.commit();
+            }
+
             return updatedRecord;
+
+        } catch (Exception e) {
+            if (isNewTransaction && transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw e;
+        }
     }
 
     /**

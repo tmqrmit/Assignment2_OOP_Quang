@@ -34,7 +34,7 @@
                 </Button>
 
                 <!-- View Lending Records Button -->
-                <Button layoutX="251.0" layoutY="150.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="300.0" text="View My Lending Records">
+                <Button layoutX="251.0" layoutY="150.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="300.0" text="View My Lending Records" onAction="#handleViewRecords">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>
@@ -42,21 +42,28 @@
 
 
                 <!-- Approve Lending Requests Button -->
-                <Button layoutX="251.0" layoutY="200.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="300.0" text="Approve Lending Requests" >
+                <Button layoutX="251.0" layoutY="200.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="300.0" text="Approve Lending Requests" onAction="#handleViewRequests">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Button>
+
+                <!-- View Supervised Records -->
+                <Button layoutX="251.0" layoutY="250.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="300.0" text="View Supervised Records" onAction="#handleViewSupervisedRecords">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>
                 </Button>
 
                 <!-- View Statistics Button -->
-                <Button layoutX="251.0" layoutY="250.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="300.0" text="View Statistics" >
+                <Button layoutX="251.0" layoutY="300.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="300.0" text="View Statistics" onAction="#handleAcademicStats">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>
                 </Button>
 
                 <!-- Profile Management Button -->
-                <Button layoutX="251.0" layoutY="300.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="300.0" text="Profile Management" >
+                <Button layoutX="251.0" layoutY="350.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="300.0" text="Profile Management" onAction="#handleProfileManagement">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>

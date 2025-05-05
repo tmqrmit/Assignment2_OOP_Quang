@@ -1,5 +1,6 @@
 package app.controller.academic;
 
+import app.controller.student.StudentProfileManagementController;
 import app.model.Academic;
 import app.model.AppUser;
 
@@ -92,8 +93,140 @@ public class AcademicController implements LogoutHandler {
 
     @FXML
     private void handleViewRecords() {
+        try {
+            // Load the FXML for the popup window
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/academic/academic_view_records.fxml"));
+            Parent root = loader.load();
 
+            // Get the popup controller and initialize it with necessary data
+            AcademicViewRecordsController controller = loader.getController();
+
+            controller.initialize(appUser); // Pass appUser and LendingService
+
+            // Create a new stage for the popup
+            Stage popupStage = new Stage();
+            popupStage.setTitle("View Lending Records");
+
+            // Set the scene for the popup stage
+            popupStage.setScene(new Scene(root));
+            popupStage.initModality(Modality.APPLICATION_MODAL); // Set modality to block interaction with other windows
+
+            // Show the popup and wait until it's closed
+            popupStage.showAndWait();
+        } catch (IOException e) {
+            // Log or display the error if FXML or other initialization fails
+            e.printStackTrace();
+        }
     }
+
+    @FXML
+    private void handleViewRequests() {
+        try {
+            // Load the FXML for the popup window
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/academic/academic_view_requests.fxml"));
+            Parent root = loader.load();
+
+            // Get the popup controller and initialize it with necessary data
+            AcademicViewRequestsController controller = loader.getController();
+
+            controller.initialize(appUser); // Pass appUser and LendingService
+
+            // Create a new stage for the popup
+            Stage popupStage = new Stage();
+            popupStage.setTitle("View Student Requests");
+
+            // Set the scene for the popup stage
+            popupStage.setScene(new Scene(root));
+            popupStage.initModality(Modality.APPLICATION_MODAL); // Set modality to block interaction with other windows
+
+            // Show the popup and wait until it's closed
+            popupStage.showAndWait();
+        } catch (IOException e) {
+            // Log or display the error if FXML or other initialization fails
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleViewSupervisedRecords() {
+        try {
+            // Load the FXML for the popup window
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/academic/academic_view_supervised_records.fxml"));
+            Parent root = loader.load();
+
+            // Get the popup controller and initialize it with necessary data
+            AcademicViewSupervisedRecordsController controller = loader.getController();
+
+            controller.initialize(appUser); // Pass appUser and LendingService
+
+            // Create a new stage for the popup
+            Stage popupStage = new Stage();
+            popupStage.setTitle("View Supervised Lending Records");
+
+            // Set the scene for the popup stage
+            popupStage.setScene(new Scene(root));
+            popupStage.initModality(Modality.APPLICATION_MODAL); // Set modality to block interaction with other windows
+
+            // Show the popup and wait until it's closed
+            popupStage.showAndWait();
+        } catch (IOException e) {
+            // Log or display the error if FXML or other initialization fails
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleAcademicStats() {
+        try {
+            // Load the FXML for the popup window
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/academic/academic_stats.fxml"));
+            Parent root = loader.load();
+
+            // Get the popup controller and initialize it with necessary data
+            AcademicStatsController controller = loader.getController();
+
+            controller.initialize(appUser); // Pass appUser and LendingService
+
+            // Create a new stage for the popup
+            Stage popupStage = new Stage();
+            popupStage.setTitle("View Academic Stats");
+
+            // Set the scene for the popup stage
+            popupStage.setScene(new Scene(root));
+            popupStage.initModality(Modality.APPLICATION_MODAL); // Set modality to block interaction with other windows
+
+            // Show the popup and wait until it's closed
+            popupStage.showAndWait();
+        } catch (IOException e) {
+            // Log or display the error if FXML or other initialization fails
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleProfileManagement() {
+        try {
+            // Load the profile management FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/academic/academic_profile_management.fxml"));
+            Parent root = loader.load();
+
+            // Get the controller and pass the appUser
+            AcademicProfileManagementController controller = loader.getController();
+            controller.initialize(appUser);  // Pass the logged-in user to the controller
+
+            // Create a popup stage
+            Stage popupStage = new Stage();
+            popupStage.setTitle("Manage Profile");
+            popupStage.setScene(new Scene(root));
+            popupStage.initModality(Modality.APPLICATION_MODAL);  // Modal window
+            popupStage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Optionally, show an alert if the FXML fails to load
+        }
+    }
+
 
     @FXML
     private void handleLogout() {

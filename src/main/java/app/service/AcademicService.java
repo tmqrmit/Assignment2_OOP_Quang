@@ -3,6 +3,8 @@ package app.service;
 import app.model.Academic;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityTransaction;
 import jakarta.transaction.Transactional;
 
 import java.util.List;
@@ -99,11 +101,32 @@ public class AcademicService {
      * @throws IllegalArgumentException if the updated `personId` already exists in another record
      */
     public Academic updateAcademic(Academic academic) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        boolean isNewTransaction = false;
 
-        Academic existingAcademic = findByPersonId(academic.getPersonId());
-        if (existingAcademic == null) {
-            throw new IllegalArgumentException("Academic with personId " + academic.getPersonId() + " does not exist.");
+        try {
+            // Start transaction only if none is active
+            if (!transaction.isActive()) {
+                transaction.begin();
+                isNewTransaction = true;
+            }
+
+            // Merge changes
+            Academic updatedAcademic = entityManager.merge(academic);
+
+            // Commit only if this method started the transaction
+            if (isNewTransaction) {
+                transaction.commit();
+            }
+
+            return updatedAcademic;
+
+        } catch (Exception e) {
+            // Rollback only if this method started the transaction
+            if (isNewTransaction && transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw e; // Re-throw for caller handling
         }
-        return entityManager.merge(academic);
     }
 }

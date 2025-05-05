@@ -79,8 +79,13 @@ public class InventoryService {
      */
     public Equipment updateEquipment(Equipment equipment) {
         EntityTransaction transaction = entityManager.getTransaction();
+        boolean isNewTransaction = false;
+
         try {
-            transaction.begin();
+            if (!transaction.isActive()) {
+                transaction.begin();
+                isNewTransaction = true;
+            }
 
             // Check for duplicate equipmentId
             Equipment existingEquipment = findByEquipmentId(equipment.getEquipmentId());
@@ -90,10 +95,13 @@ public class InventoryService {
 
             Equipment updatedEquipment = entityManager.merge(equipment);
 
-            transaction.commit();
+            if (isNewTransaction) {
+                transaction.commit();
+            }
+
             return updatedEquipment;
         } catch (Exception e) {
-            if (transaction.isActive()) {
+            if (isNewTransaction && transaction.isActive()) {
                 transaction.rollback();
             }
             throw e;
