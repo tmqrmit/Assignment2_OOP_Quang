@@ -76,7 +76,7 @@ public class StudentController implements LogoutHandler {
             popupStage.setTitle("Lending Request Form");
 
             // Set the scene for the popup stage
-            popupStage.setScene(new Scene(root));
+            popupStage.setScene(new Scene(root, 400, 400));
 
             // Set modality to block interaction with the main window
             popupStage.initModality(Modality.APPLICATION_MODAL);

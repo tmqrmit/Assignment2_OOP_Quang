@@ -142,10 +142,6 @@ public class LendingService {
         boolean isNewTransaction = false;
 
         try {
-            if (!validateDates(lendingRecord.getBorrower(), lendingRecord.getBorrowDate(), lendingRecord.getReturnDate())) {
-                throw new IllegalArgumentException("Invalid date(s) for lending record or student is borrowing for more than 14 days. Please try again.");
-            }
-
             if (!transaction.isActive()) {
                 transaction.begin();
                 isNewTransaction = true;
@@ -365,7 +361,7 @@ public class LendingService {
         if (borrowerId != null && !borrowerId.isEmpty()) {
             queryBuilder.append(" AND lr.borrowerId = :borrowerId");
         }
-        if (responsibleAcademic != null) {
+        if (responsibleAcademic != null && !responsibleAcademic.isEmpty()) {
             queryBuilder.append(" AND lr.responsibleAcademic = :responsibleAcademic");
         }
         if (borrowDateStart != null) {
@@ -394,7 +390,7 @@ public class LendingService {
         if (borrowerId != null && !borrowerId.isEmpty()) {
             query.setParameter("borrowerId", borrowerId);
         }
-        if (responsibleAcademic != null) {
+        if (responsibleAcademic != null && !responsibleAcademic.isEmpty()) {
             query.setParameter("responsibleAcademic", responsibleAcademic);
         }
         if (borrowDateStart != null) {
@@ -445,11 +441,6 @@ public class LendingService {
                 supervisor.stopSupervisingStudent(student.getStudentId());
             }
             academicService.updateAcademic(supervisor);
-        }
-
-        // Check the lending record's current status
-        if (lendingRecord.getStatus() != LendingRecordStatus.BORROWED) {
-            throw new IllegalArgumentException("Lending record with ID " + lendingRecord.getRecordId() + " is not currently borrowed. Status: " + lendingRecord.getStatus());
         }
 
         // Check the associated equipment

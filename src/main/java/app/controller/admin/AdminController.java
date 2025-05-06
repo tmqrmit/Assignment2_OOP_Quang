@@ -1,0 +1,116 @@
+package app.controller.admin;
+
+import app.controller.admin.ManageRecords.AdminManageRecordsController;
+import app.service.*;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Persistence;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+
+public class AdminController {
+
+
+    private LendingService lendingService;
+
+    // FXML Components
+    @FXML
+    private Label welcomeLabel;
+
+    @FXML
+    public void initialize() {
+        // Initialize the welcome message with admin username if available
+        welcomeLabel.setText("Welcome, Admin");
+
+        EntityManager entityManager = Persistence.createEntityManagerFactory("your-persistence-unit").createEntityManager();
+        InventoryService inventoryService = new InventoryService(entityManager);
+        StudentService studentService = new StudentService(entityManager);
+        AcademicService academicService = new AcademicService(entityManager);
+        CourseService courseService = new CourseService(entityManager);
+        this.lendingService = new LendingService(entityManager, inventoryService, studentService, academicService, courseService);
+    }
+
+    // Button Handlers
+    @FXML
+    private void handleManageStudents() {
+        System.out.println("Manage Students button clicked");
+        // Implementation to manage students
+        // studentService.getAllStudents();
+    }
+
+    @FXML
+    private void handleManageAcademics() {
+        System.out.println("Manage Academics button clicked");
+        // Implementation to manage academics
+        // academicService.getAllAcademics();
+    }
+
+    @FXML
+    private void handleManageProfessionals() {
+        System.out.println("Manage Professionals button clicked");
+        // Implementation to manage professionals
+        // professionalService.getAllProfessionals();
+    }
+
+    @FXML
+    private void handleManageCourses() {
+        System.out.println("Manage Courses button clicked");
+        // Implementation to manage courses
+        // courseService.getAllCourses();
+    }
+
+    @FXML
+    private void handleManageLendingRecords() {
+        try {
+            // Load the FXML for the popup window
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/admin/manageRecords/admin_manage_records.fxml"));
+            Parent root = loader.load();
+
+            // Get the popup controller and initialize it with necessary data
+            AdminManageRecordsController controller = loader.getController();
+
+            controller.initialize(lendingService); // Pass LendingService
+
+            // Create a new stage for the popup
+            Stage popupStage = new Stage();
+            popupStage.setTitle("Manage Lending Records");
+
+            // Set the scene for the popup stage
+            popupStage.setScene(new Scene(root, 1200, 800));
+            popupStage.initModality(Modality.APPLICATION_MODAL); // Set modality to block interaction with other windows
+
+            // Show the popup and wait until it's closed
+            popupStage.showAndWait();
+        } catch (IOException e) {
+            // Log or display the error if FXML or other initialization fails
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleManageEquipment() {
+        System.out.println("Manage Equipment button clicked");
+        // Implementation to manage equipment
+        // equipmentService.getAllEquipment();
+    }
+
+    @FXML
+    private void handleLogout() {
+        System.out.println("Admin logged out");
+        // Implementation for logout
+        // NavigationUtil.navigateToLogin();
+    }
+
+    // Additional methods if needed
+    /*
+    private void initializeAdminData() {
+        // Load any initial data needed for admin dashboard
+    }
+    */
+}
