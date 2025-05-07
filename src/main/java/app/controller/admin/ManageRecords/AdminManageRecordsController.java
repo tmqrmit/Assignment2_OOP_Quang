@@ -150,6 +150,40 @@ public class AdminManageRecordsController {
     }
 
     /**
+     * Add new lending record
+     */
+    @FXML
+    private void handleAddLendingRecord() {
+        try {
+            // Load the FXML for the popup window
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/admin/manageRecords/admin_add_lending_record.fxml"));
+            Parent root = loader.load();
+
+            // Get the popup controller and initialize it with necessary data
+            AdminAddLendingRecordController controller = loader.getController();
+
+            controller.initialize(lendingService); // Pass LendingService
+
+            // Create a new stage for the popup
+            Stage popupStage = new Stage();
+            popupStage.setTitle("Add Lending Records");
+
+            // Set the scene for the popup stage
+            popupStage.setScene(new Scene(root, 400, 400));
+            popupStage.initModality(Modality.APPLICATION_MODAL); // Set modality to block interaction with other windows
+
+            // Show the popup and wait until it's closed
+            popupStage.showAndWait();
+
+            // Refresh table
+            loadLendingRecords();
+        } catch (IOException e) {
+            // Log or display the error if FXML or other initialization fails
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Handles the closing of the current window.
      */
     @FXML
@@ -192,4 +226,7 @@ public class AdminManageRecordsController {
         }
     }
 
+    private void addLendingRecord() {
+
+    }
 }

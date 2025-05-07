@@ -4,6 +4,8 @@ import app.model.EquipmentImage;
 
 import jakarta.persistence.EntityManager;
 import java.util.Base64;
+
+import jakarta.persistence.EntityTransaction;
 import jakarta.transaction.Transactional;
 
 /**
@@ -31,12 +33,27 @@ public class EquipmentImageService {
      * @throws IllegalArgumentException if an image already exists for the given equipmentId.
      */
     public void saveEquipmentImage(EquipmentImage equipmentImage) {
-        EquipmentImage existingImage = findByEquipmentId(equipmentImage.getEquipment().getEquipmentId());
-        if (existingImage != null) {
-            throw new IllegalArgumentException("An image already exists for equipmentId: "
-                    + equipmentImage.getEquipment().getEquipmentId());
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+
+            // Check if an image already exists for the given equipmentId
+            EquipmentImage existingImage = findByEquipmentId(equipmentImage.getEquipment().getEquipmentId());
+
+            if (existingImage != null) {
+                // If an image exists, delete the old one
+                entityManager.remove(existingImage);
+            }
+
+            // Persist the new image (either new or replacement)
+            entityManager.persist(equipmentImage);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw e; // Re-throw to let caller handle or log
         }
-        entityManager.persist(equipmentImage);
     }
 
     /**

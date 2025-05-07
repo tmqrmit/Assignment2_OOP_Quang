@@ -69,7 +69,9 @@ public class Equipment {
     public Date getPurchaseDate() {
         return (purchaseDate != null) ? new Date(purchaseDate.getTime()) : null;
     }
-
+    public void setPurchaseDate(Date purchaseDate) {
+        this.purchaseDate = (purchaseDate != null) ? new Date(purchaseDate.getTime()) : null;
+    }
     public EquipmentCondition getCondition() {
         return condition;
     }

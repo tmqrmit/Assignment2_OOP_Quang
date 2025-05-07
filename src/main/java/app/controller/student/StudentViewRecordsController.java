@@ -57,8 +57,8 @@ public class StudentViewRecordsController {
 
         this.lendingService = new LendingService(entityManager, inventoryService, studentService, academicService, courseService);
 
-//        setupTableColumns();
-//        setupComboBoxes();
+        loadLendingRecords();
+        setupTableColumns();
     }
 
     public void setAppUser(AppUser user) {

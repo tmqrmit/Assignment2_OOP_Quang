@@ -82,19 +82,30 @@
             </children>
         </VBox>
 
-        <!-- TableView to display lending records -->
-        <TableView fx:id="recordsTableView" layoutX="20.0" layoutY="280.0" prefWidth="1400.0" prefHeight="400.0">
-            <columns>
-                <TableColumn fx:id="borrowerIdColumn" text="Borrower ID" prefWidth="150.0"/>
-                <TableColumn fx:id="responsibleAcademicIdColumn" text="Responsible Academic ID" prefWidth="150.0"/>
-                <TableColumn fx:id="borrowDateColumn" text="Borrow Date" prefWidth="150.0"/>
-                <TableColumn fx:id="returnDateColumn" text="Return Date" prefWidth="150.0"/>
-                <TableColumn fx:id="equipmentColumn" text="Equipment IDs (comma-separated)" prefWidth="150.0"/>
-                <TableColumn fx:id="purposeColumn" text="Purpose" prefWidth="150.0"/>
-                <TableColumn fx:id="statusColumn" text="Status" prefWidth="100.0"/>
-                <TableColumn fx:id="approvalColumn" text="Approval" prefWidth="100.0"/>
-            </columns>
-        </TableView>
+        <VBox layoutX="20.0" layoutY="280.0" spacing="10.0">
+            <children>
+                <!-- TableView to display lending records -->
+                <TableView fx:id="recordsTableView" prefWidth="1400.0" prefHeight="400.0">
+                    <columns>
+                        <TableColumn fx:id="borrowerIdColumn" text="Borrower ID" prefWidth="150.0"/>
+                        <TableColumn fx:id="responsibleAcademicIdColumn" text="Responsible Academic ID" prefWidth="150.0"/>
+                        <TableColumn fx:id="borrowDateColumn" text="Borrow Date" prefWidth="150.0"/>
+                        <TableColumn fx:id="returnDateColumn" text="Return Date" prefWidth="150.0"/>
+                        <TableColumn fx:id="equipmentColumn" text="Equipment IDs (comma-separated)" prefWidth="150.0"/>
+                        <TableColumn fx:id="purposeColumn" text="Purpose" prefWidth="150.0"/>
+                        <TableColumn fx:id="statusColumn" text="Status" prefWidth="100.0"/>
+                        <TableColumn fx:id="approvalColumn" text="Approval" prefWidth="100.0"/>
+                    </columns>
+                </TableView>
+
+                <!-- Centered Add Lending Record Button -->
+                <HBox alignment="CENTER">
+                    <children>
+                        <Button text="Add Lending Record" style="-fx-font-size: 14px" onAction="#handleAddLendingRecord"/>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
 
     </children>
 </AnchorPane>

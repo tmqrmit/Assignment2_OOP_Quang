@@ -11,7 +11,7 @@ public class EquipmentImage {
     private Long imageId; // Primary key for EquipmentImage
 
     @OneToOne(optional = false) // Creates a foreign key to the Equipment table
-    @JoinColumn(name = "equipment_id", nullable = false, unique = true) // Reference to equipment table `id`
+    @JoinColumn(name = "equipment_id", nullable = false) // Reference to equipment table `id`
     private Equipment equipment; // Reference to the Equipment object
 
     @Lob

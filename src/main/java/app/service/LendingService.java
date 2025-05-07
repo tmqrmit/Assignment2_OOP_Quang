@@ -424,7 +424,9 @@ public class LendingService {
      * @throws IllegalArgumentException if the record is invalid (e.g., does not exist, isn't borrowed, etc.).
      */
     public void returnLendingRecord(LendingRecord lendingRecord) {
-
+        if (lendingRecord.getApprovalStatus() != approvalStatus.APPROVED) {
+            throw new IllegalArgumentException("Lending record with ID " + lendingRecord.getRecordId() + " is not approved. Status: " + lendingRecord.getApprovalStatus());
+        }
         if (lendingRecord == null) {
             throw new IllegalArgumentException(" Record should not be null");
         }
