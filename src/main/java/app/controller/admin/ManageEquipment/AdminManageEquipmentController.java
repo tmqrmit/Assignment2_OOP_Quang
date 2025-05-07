@@ -1,5 +1,6 @@
 package app.controller.admin.ManageEquipment;
 
+import app.controller.admin.ManageRecords.AdminAddLendingRecordController;
 import app.controller.admin.ManageRecords.LendingRecordRowPopupController;
 import app.model.Equipment;
 import app.model.EquipmentImage;
@@ -275,5 +276,38 @@ public class AdminManageEquipmentController {
             showAlert("Error", "Failed to load popup.");
         }
     }
+
+    @FXML
+    private void handleAddEquipment() {
+        try {
+            // Load the FXML for the popup window
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/admin/manageEquipment/admin_add_equipment.fxml"));
+            Parent root = loader.load();
+
+            // Get the popup controller and initialize it with necessary data
+            AdminAddEquipmentController controller = loader.getController();
+
+            controller.initialize(inventoryService);
+
+            // Create a new stage for the popup
+            Stage popupStage = new Stage();
+            popupStage.setTitle("Add Equipment");
+
+            // Set the scene for the popup stage
+            popupStage.setScene(new Scene(root, 400, 400));
+            popupStage.initModality(Modality.APPLICATION_MODAL); // Set modality to block interaction with other windows
+
+            // Show the popup and wait until it's closed
+            popupStage.showAndWait();
+
+            // Refresh table
+            loadAllEquipment();
+
+        } catch (IOException e) {
+            // Log or display the error if FXML or other initialization fails
+            e.printStackTrace();
+        }
+    }
+
 
 }

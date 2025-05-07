@@ -32,12 +32,26 @@ public class InventoryService {
      * @throws IllegalArgumentException if an Equipment with the same equipmentId already exists
      */
     public void saveEquipment(Equipment equipment) {
-        // Check for duplicate equipmentId
-        Equipment existingEquipment = findByEquipmentId(equipment.getEquipmentId());
-        if (existingEquipment != null) {
-            throw new IllegalArgumentException("Equipment with equipmentId " + equipment.getEquipmentId() + " already exists.");
+        EntityTransaction transaction = entityManager.getTransaction();
+
+        try {
+            transaction.begin();
+
+            // Check for duplicate equipmentId
+            Equipment existingEquipment = findByEquipmentId(equipment.getEquipmentId());
+            if (existingEquipment != null) {
+                throw new IllegalArgumentException("Equipment with equipmentId " + equipment.getEquipmentId() + " already exists.");
+            }
+
+            entityManager.persist(equipment);
+
+            transaction.commit(); // Commit if successful
+        } catch (RuntimeException e) {
+            if (transaction.isActive()) {
+                transaction.rollback(); // Rollback if error occurs
+            }
+            throw e; // Rethrow the exception to handle it at a higher level
         }
-        entityManager.persist(equipment);
     }
 
     /**
