@@ -3,6 +3,7 @@ package app.service;
 import app.model.Professional;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import jakarta.transaction.Transactional;
 
 import java.util.List;
@@ -60,14 +61,20 @@ public class ProfessionalService {
      * Updates an existing Professional entity in the database.
      *
      * @param professional the Professional with updated data
-     * @return the updated Professional object
+     *
      */
-    public Professional updateProfessional(Professional professional) {
-        Professional found = findByPersonId(professional.getPersonId());
-        if (found == null) {
-            throw new IllegalArgumentException("Professional with personId " + professional.getPersonId() + " does not exist.");
+    public void updateProfessional(Professional professional) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            entityManager.merge(professional);
+            transaction.commit();
+        } catch (RuntimeException e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw e;
         }
-        return entityManager.merge(professional);
     }
 
     /**
@@ -76,9 +83,19 @@ public class ProfessionalService {
      * @param personId the personId of the Professional to delete
      */
     public void deleteById(String personId) {
+        EntityTransaction transaction = entityManager.getTransaction();
         Professional professional = findByPersonId(personId);
-        if (professional != null) {
-            entityManager.remove(professional);
+        try {
+            transaction.begin();
+            if (professional != null) {
+                entityManager.remove(professional);
+            }
+            transaction.commit();
+        } catch (RuntimeException e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw e;
         }
     }
 }

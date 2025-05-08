@@ -107,7 +107,7 @@ public class LoginController {
                 case STUDENT -> fxmlFile = "/student/student_dashboard.fxml";
                 case ACADEMIC -> fxmlFile = "/academic/academic_dashboard.fxml";
                 case ADMIN -> fxmlFile = "/admin/admin_dashboard.fxml";
-                case PROFESSIONAL -> fxmlFile = "/professional_dashboard.fxml";
+                case PROFESSIONAL -> fxmlFile = "/professional/professional_dashboard.fxml";
                 default -> fxmlFile = "/guest_dashboard.fxml";
             }
 
