@@ -3,6 +3,8 @@ package app.controller.admin.ManageRecords;
 import app.model.LendingRecord;
 import app.model.enums.LendingRecordStatus;
 import app.service.LendingService;
+import app.service.StudentService;
+import jakarta.persistence.Persistence;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -38,11 +40,13 @@ public class LendingRecordRowPopupController {
     @FXML
     private TextField purposeField;
 
+    private StudentService studentService;
     private LendingService lendingService;
     private LendingRecord record;
 
     @FXML
     public void setData(LendingService lendingService, LendingRecord record) {
+        this.studentService = new StudentService(Persistence.createEntityManagerFactory("your-persistence-unit").createEntityManager());
         this.lendingService = lendingService;
         this.record = record;
 
@@ -82,11 +86,20 @@ public class LendingRecordRowPopupController {
             LendingRecordStatus updatedStatus = LendingRecordStatus.valueOf(statusText);
             String updatedPurpose = purposeField.getText();
 
+            // Check if borrower is a student
+            boolean isStudent = (studentService.findByPersonId(updatedBorrower) != null);
+
             // Handle if returning the record
             if (!prevStatus.equals(LendingRecordStatus.RETURNED) && updatedStatus.equals(LendingRecordStatus.RETURNED)) {
                 lendingService.returnLendingRecord(record);
             }
             LendingRecord updated = new LendingRecord(record.getRecordId(), updatedBorrower, equipmentSet, updatedResponsibleAcademic, updatedBorrowDate, updatedReturnDate, updatedStatus, updatedPurpose);
+
+            // If not a student, set it to APPROVED
+            if (!isStudent) {
+                updated.setApprovalStatus(app.model.enums.approvalStatus.APPROVED);
+            }
+
             lendingService.updateLendingRecord(updated);
 
             closeWindow();
