@@ -3,6 +3,7 @@ package app.service;
 import app.model.Course;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import jakarta.transaction.Transactional;
 
 import java.util.List;
@@ -33,12 +34,23 @@ public class CourseService {
      * @param course the Course to be saved
      * @throws IllegalArgumentException if a Course with the same `courseId` already exists
      */
-    public void saveCourse(Course course) {
+    public void addCourse(Course course) {
         Course existingCourse = findByCourseId(course.getCourseId());
         if (existingCourse != null) {
             throw new IllegalArgumentException("A course with ID " + course.getCourseId() + " already exists.");
         }
-        entityManager.persist(course);
+
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            entityManager.persist(course);
+            transaction.commit();
+        } catch (RuntimeException e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw e;
+        }
     }
 
     /**
@@ -87,21 +99,43 @@ public class CourseService {
             throw new IllegalArgumentException("Course with ID " + course.getCourseId() + " does not exist.");
         }
 
-        entityManager.merge(course);
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            entityManager.merge(course);
+            transaction.commit();
+        } catch (RuntimeException e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw e;
+        }
+
         return existingCourse;
     }
 
     /**
-     * Delete a Course entity by its `courseId`.
+     * Delete a Course .
      *
-     * @param courseId the ID of the Course to delete
+     * @param course to delete
      */
-    public void deleteCourseById(String courseId) {
-        Course course = findByCourseId(courseId);
-        if (course == null) {
-            throw new IllegalArgumentException("Course with ID " + courseId + " does not exist.");
+    public void deleteCourse(Course course) {
+        boolean found = findByCourseId(course.getCourseId()) != null;
+        if (!found) {
+            throw new IllegalArgumentException("Course does not exist.");
         }
-        entityManager.remove(course);
+
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            entityManager.remove(course);
+            transaction.commit();
+        } catch (RuntimeException e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw e;
+        }
     }
 
     /**

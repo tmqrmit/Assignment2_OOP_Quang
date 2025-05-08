@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="app.controller.admin.ManageCourses.CourseRowPopupController">
+    <!-- VBox to hold all the form elements -->
+    <VBox alignment="TOP_CENTER" spacing="10" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
+        <!-- Label and TextField for Course ID -->
+        <HBox spacing="10">
+            <Label text="Course ID:"/>
+            <TextField fx:id="courseIdField"/>
+        </HBox>
+
+        <!-- Label and TextField for Course Name -->
+        <HBox spacing="10">
+            <Label text="Course Name:"/>
+            <TextField fx:id="courseNameField"/>
+        </HBox>
+
+        <!-- Label and TextField for Academic ID -->
+        <HBox spacing="10">
+            <Label text="Academic ID:"/>
+            <TextField fx:id="academicIdField"/>
+        </HBox>
+
+        <!-- Label and TextField for Student IDs -->
+        <HBox spacing="10">
+            <Label text="Student IDs (comma-separated):"/>
+            <TextField fx:id="studentIdsField"/>
+        </HBox>
+
+        <!-- Save Button -->
+        <HBox alignment="CENTER">
+            <Button text="Save" onAction="#handleSave"/>
+            <Button text="Delete" onAction="#handleDelete"/>
+        </HBox>
+    </VBox>
+</AnchorPane>

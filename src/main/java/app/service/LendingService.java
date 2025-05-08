@@ -431,8 +431,8 @@ public class LendingService {
             throw new IllegalArgumentException(" Record should not be null");
         }
 
-        if (lendingRecord.getStatus() != LendingRecordStatus.BORROWED) {
-            throw new IllegalArgumentException("Lending record with ID " + lendingRecord.getRecordId() + " is not currently borrowed. Status: " + lendingRecord.getStatus());
+        if (lendingRecord.getStatus() == LendingRecordStatus.RETURNED) {
+            throw new IllegalArgumentException("Lending record with ID " + lendingRecord.getRecordId() + " has already been returned.");
         }
         // Handle if borrower is a student
         Student student = studentService.findByPersonId(lendingRecord.getBorrower());

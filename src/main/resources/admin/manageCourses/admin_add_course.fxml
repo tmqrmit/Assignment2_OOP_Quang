@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="app.controller.admin.ManageCourses.AdminAddCourseController">
+    <VBox spacing="10" alignment="TOP_CENTER" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Course ID:"/>
+            <TextField fx:id="courseIdField" HBox.hgrow="ALWAYS"/>
+        </HBox>
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Course Name:"/>
+            <TextField fx:id="courseNameField" HBox.hgrow="ALWAYS"/>
+        </HBox>
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Academic ID:"/>
+            <TextField fx:id="academicIdField" HBox.hgrow="ALWAYS"/>
+        </HBox>
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Student IDs (comma-separated):"/>
+            <TextField fx:id="studentIdsField" HBox.hgrow="ALWAYS"/>
+        </HBox>
+
+        <HBox alignment="CENTER_RIGHT">
+            <Button text="Add Course" onAction="#handleAddCourse"/>
+        </HBox>
+
+    </VBox>
+</AnchorPane>

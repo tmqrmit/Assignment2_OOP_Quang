@@ -99,9 +99,9 @@ public class EquipmentImageService {
         String base64Image = "data:" + image.getFileType() + ";base64," +
                 Base64.getEncoder().encodeToString(image.getImageData());
 
-        // If the system outputs Base64 for web display
-        System.out.println("Base64 Image Data:");
-        System.out.println(base64Image);
+//        // If the system outputs Base64 for web display
+//        System.out.println("Base64 Image Data:");
+//        System.out.println(base64Image);
 
         return base64Image; // Return Base64 string if the caller needs to display it in a web page
     }
