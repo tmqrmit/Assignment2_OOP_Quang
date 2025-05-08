@@ -1,6 +1,8 @@
 package app.controller;
 
 import app.controller.academic.AcademicController;
+import app.controller.admin.AdminController;
+import app.controller.professional.ProfessionalController;
 import app.controller.student.StudentController;
 import app.model.AppUser;
 import app.service.*;
@@ -118,13 +120,15 @@ public class LoginController {
             // Access the dashboard's controller
             Object controller = loader.getController();
 
-            // Get the AppUser object
+            // Inject the AppUser object
             if (controller instanceof StudentController) {
                 ((StudentController) controller).initialize(appUser);
             }
-
             if (controller instanceof AcademicController) {
                 ((AcademicController) controller).initialize(appUser);
+            }
+            if (controller instanceof ProfessionalController) {
+                ((ProfessionalController) controller).initialize(appUser);
             }
 
 
