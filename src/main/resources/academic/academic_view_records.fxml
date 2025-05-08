@@ -42,9 +42,9 @@
                             <items>
                                 <FXCollections fx:factory="observableArrayList">
                                     <String fx:value="Any"/>
-                                    <String fx:value="BORROWED"/>
-                                    <String fx:value="RETURNED"/>
-                                    <String fx:value="OVERDUE"/>
+<!--                                    <String fx:value="BORROWED"/>-->
+<!--                                    <String fx:value="RETURNED"/>-->
+<!--                                    <String fx:value="OVERDUE"/>-->
                                 </FXCollections>
                             </items>
                         </ComboBox>
@@ -54,8 +54,8 @@
                             <items>
                                 <FXCollections fx:factory="observableArrayList">
                                     <String fx:value="Any"/>
-                                    <String fx:value="APPROVED"/>
-                                    <String fx:value="PENDING"/>
+<!--                                    <String fx:value="APPROVED"/>-->
+<!--                                    <String fx:value="PENDING"/>-->
                                 </FXCollections>
                             </items>
                         </ComboBox>
