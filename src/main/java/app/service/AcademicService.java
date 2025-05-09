@@ -33,12 +33,25 @@ public class AcademicService {
      * @throws IllegalArgumentException if an Academic with the same `personId` already exists
      */
     public void saveAcademic(Academic academic) {
-        // Check if an existing Academic already has this `personId`
-        Academic existingAcademic = findByPersonId(academic.getPersonId());
-        if (existingAcademic != null) {
-            throw new IllegalArgumentException("An academic with personId " + academic.getPersonId() + " already exists.");
+        EntityTransaction transaction = entityManager.getTransaction();
+
+        try {
+            transaction.begin();
+
+            Academic existingAcademic = findByPersonId(academic.getPersonId());
+            if (existingAcademic != null) {
+                throw new IllegalArgumentException("An academic with personId " + academic.getPersonId() + " already exists.");
+            }
+
+            entityManager.persist(academic);
+
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw e;
         }
-        entityManager.persist(academic);
     }
 
     /**
@@ -84,8 +97,24 @@ public class AcademicService {
      * @param academic to remove
      */
     public void removeAcademic(Academic academic) {
-        if (findByPersonId(academic.getPersonId()) != null) {
-            entityManager.remove(academic);
+        EntityTransaction transaction = entityManager.getTransaction();
+
+        try {
+            transaction.begin();
+
+            Academic existingAcademic = findByPersonId(academic.getPersonId());
+            if (existingAcademic != null) {
+                // Ensure the entity is managed before removal
+                Academic managedAcademic = entityManager.contains(academic) ? academic : entityManager.merge(academic);
+                entityManager.remove(managedAcademic);
+            }
+
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw e;
         }
     }
 

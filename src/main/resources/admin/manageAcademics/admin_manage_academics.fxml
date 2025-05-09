@@ -26,33 +26,40 @@
                         <TextField fx:id="expertiseField" prefWidth="200.0"/>
                     </children>
                 </HBox>
+
+                <!--Buttons-->
+                <HBox spacing="10.0">
+                    <children>
+                        <Button text="Apply Filter" style="-fx-font-size: 14px" onAction="#loadAcademics"/>
+                        <Button text="Close" style="-fx-font-size: 14px" onAction="#handleCloseWindow"/>
+                    </children>
+                </HBox>
+
             </children>
         </VBox>
 
-        <!--Buttons-->
-        <VBox>
-            <children>
-                <Button text="Apply Filter" style="-fx-font-size: 14px" onAction="#loadAcademics"/>
-                <Button text="Close" style="-fx-font-size: 14px" onAction="#handleCloseWindow"/>
-            </children>
-        </VBox>
 
-        <!-- Table Section -->
-        <TableView fx:id="academicsTableView" layoutX="20.0" layoutY="200.0" prefWidth="960.0" prefHeight="400.0">
-            <columns>
-                <TableColumn fx:id="personIdColumn" text="Person ID" prefWidth="100.0"/>
-                <TableColumn fx:id="nameColumn" text="Full Name" prefWidth="200.0"/>
-                <TableColumn fx:id="emailColumn" text="Email" prefWidth="200.0"/>
-                <TableColumn fx:id="phoneColumn" text="Phone Number" prefWidth="150.0"/>
-                <TableColumn fx:id="expertiseColumn" text="Expertise" prefWidth="150.0"/>
-                <TableColumn fx:id="DOBColumn" text="Date of Birth" prefWidth="150.0"/>
-            </columns>
-        </TableView>
-
-        <!-- Add Academic Button -->
-        <VBox alignment="CENTER">
+        <VBox spacing="10" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.bottomAnchor="20.0" AnchorPane.topAnchor="160.0">
             <children>
-                <Button text="Add Academic" style="-fx-font-size: 14px" onAction="#handleAddAcademic"/>
+                <!-- Table Section -->
+                <TableView fx:id="academicsTableView" prefWidth="960.0" prefHeight="400.0">
+                    <columns>
+                        <TableColumn fx:id="personIdColumn" text="Person ID" prefWidth="100.0"/>
+                        <TableColumn fx:id="nameColumn" text="Full Name" prefWidth="200.0"/>
+                        <TableColumn fx:id="emailColumn" text="Email" prefWidth="200.0"/>
+                        <TableColumn fx:id="phoneColumn" text="Phone Number" prefWidth="150.0"/>
+                        <TableColumn fx:id="expertiseColumn" text="Expertise" prefWidth="150.0"/>
+                        <TableColumn fx:id="DOBColumn" text="Date of Birth" prefWidth="150.0"/>
+                    </columns>
+                </TableView>
+
+                <!-- Add Academic Button -->
+                <HBox alignment="CENTER">
+                    <children>
+                        <Button text="Add Academic" style="-fx-font-size: 14px" onAction="#handleAddAcademic"/>
+                    </children>
+                </HBox>
+
             </children>
         </VBox>
 

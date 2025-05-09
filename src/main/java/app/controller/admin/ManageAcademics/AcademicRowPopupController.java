@@ -23,7 +23,6 @@ public class AcademicRowPopupController {
     @FXML private TextField phoneNumberField;
     @FXML private TextField staffIdField;
     @FXML private TextField expertiseField;
-    @FXML private TextField supervisedStudentsField;
 
     private Academic academic;
     private AcademicService academicService;
@@ -41,7 +40,6 @@ public class AcademicRowPopupController {
             phoneNumberField.setText(academic.getPhoneNumber());
             staffIdField.setText(academic.getStaffId());
             expertiseField.setText(academic.getExpertise());
-            supervisedStudentsField.setText(String.join(", ", academic.getSupervisedStudents()));
         }
     }
 

@@ -47,7 +47,7 @@
         </HBox>
 
         <!-- Submit Button -->
-        <HBox alignment="CENTER_RIGHT">
+        <HBox alignment="CENTER">
             <Button text="Add Academic" onAction="#addAcademic"/>
         </HBox>
 

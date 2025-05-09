@@ -84,7 +84,7 @@ public class AdminManageAcademicsController {
     public void loadAcademics() {
         String idFilter = personIdField.getText().trim();
         String nameFilter = nameField.getText().trim().toLowerCase();
-        String expertiseFilter = expertiseColumn.getText().trim().toLowerCase();
+        String expertiseFilter = expertiseField.getText().trim().toLowerCase();
 
         List<Academic> all = academicService.findAll();
 
@@ -109,7 +109,7 @@ public class AdminManageAcademicsController {
 
             Stage popupStage = new Stage();
             popupStage.setTitle("Add Academic");
-            popupStage.setScene(new Scene(root, 400, 400));
+            popupStage.setScene(new Scene(root));
             popupStage.initModality(Modality.APPLICATION_MODAL);
             popupStage.showAndWait();
 
