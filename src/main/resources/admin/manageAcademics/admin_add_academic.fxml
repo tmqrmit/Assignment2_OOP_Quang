@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.DatePicker?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="app.controller.admin.ManageAcademics.AdminAddAcademicController">
+    <VBox spacing="10" alignment="TOP_CENTER" AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
+
+        <!-- Person Info -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Person ID:"/>
+            <TextField fx:id="personIdField" HBox.hgrow="ALWAYS"/>
+        </HBox>
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Full Name:"/>
+            <TextField fx:id="fullNameField" HBox.hgrow="ALWAYS"/>
+        </HBox>
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Date of Birth:"/>
+            <DatePicker fx:id="dateOfBirthPicker" HBox.hgrow="ALWAYS"/>
+        </HBox>
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Email:"/>
+            <TextField fx:id="emailField" HBox.hgrow="ALWAYS"/>
+        </HBox>
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Phone Number:"/>
+            <TextField fx:id="phoneNumberField" HBox.hgrow="ALWAYS"/>
+        </HBox>
+
+        <!-- Staff Info -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Staff ID:"/>
+            <TextField fx:id="staffIdField" HBox.hgrow="ALWAYS"/>
+        </HBox>
+
+        <!-- Academic Info -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Expertise:"/>
+            <TextField fx:id="expertiseField" HBox.hgrow="ALWAYS"/>
+        </HBox>
+
+        <!-- Submit Button -->
+        <HBox alignment="CENTER_RIGHT">
+            <Button text="Add Academic" onAction="#addAcademic"/>
+        </HBox>
+
+    </VBox>
+</AnchorPane>

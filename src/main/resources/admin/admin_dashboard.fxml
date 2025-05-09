@@ -49,7 +49,7 @@
 
                     <Button mnemonicParsing="false" text="Manage Academics"
                             maxWidth="Infinity" maxHeight="Infinity" GridPane.rowIndex="1"
-                            style="-fx-font-weight: bold; -fx-font-size: 14;">
+                            style="-fx-font-weight: bold; -fx-font-size: 14;" onAction="#handleManageAcademics">
                         <GridPane.margin>
                             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                         </GridPane.margin>

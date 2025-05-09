@@ -81,11 +81,10 @@ public class AcademicService {
     /**
      * Delete an Academic entity by its personID.
      *
-     * @param personId the ID of the Academic
+     * @param academic to remove
      */
-    public void removeAcademic(String personId) {
-        Academic academic = findByPersonId(personId);
-        if (academic != null) {
+    public void removeAcademic(Academic academic) {
+        if (findByPersonId(academic.getPersonId()) != null) {
             entityManager.remove(academic);
         }
     }
