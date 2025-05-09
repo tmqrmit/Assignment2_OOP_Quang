@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="app.controller.admin.ManageProfessionals.ProfessionalRowPopupController">
+    <!-- VBox to hold all the form elements -->
+    <VBox alignment="TOP_CENTER" spacing="10" AnchorPane.topAnchor="10" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10">
+
+        <!-- Label and TextField for Person ID -->
+        <HBox spacing="10">
+            <Label text="Person ID:"/>
+            <TextField fx:id="personIdField"/>
+        </HBox>
+
+        <!-- Label and TextField for Full Name -->
+        <HBox spacing="10">
+            <Label text="Full Name:"/>
+            <TextField fx:id="fullNameField"/>
+        </HBox>
+
+        <!-- Label and DatePicker for Date of Birth -->
+        <HBox spacing="10">
+            <Label text="Date of Birth:"/>
+            <DatePicker fx:id="dateOfBirthField"/>
+        </HBox>
+
+        <!-- Label and TextField for Email -->
+        <HBox spacing="10">
+            <Label text="Email:"/>
+            <TextField fx:id="emailField"/>
+        </HBox>
+
+        <!-- Label and TextField for Phone Number -->
+        <HBox spacing="10">
+            <Label text="Phone Number:"/>
+            <TextField fx:id="phoneNumberField"/>
+        </HBox>
+
+        <!-- Label and TextField for Staff ID -->
+        <HBox spacing="10">
+            <Label text="Staff ID:"/>
+            <TextField fx:id="staffIdField"/>
+        </HBox>
+
+        <!-- Label and TextField for Expertise -->
+        <HBox spacing="10">
+            <Label text="Department:"/>
+            <TextField fx:id="departmentField"/>
+        </HBox>
+
+        <!-- Buttons for Save and Delete -->
+        <HBox alignment="CENTER">
+            <Button text="Save" onAction="#handleSave"/>
+            <Button text="Delete" onAction="#handleDelete"/>
+        </HBox>
+    </VBox>
+</AnchorPane>

@@ -57,7 +57,7 @@
 
                     <Button mnemonicParsing="false" text="Manage Professionals"
                             maxWidth="Infinity" maxHeight="Infinity" GridPane.rowIndex="2"
-                            style="-fx-font-weight: bold; -fx-font-size: 14;">
+                            style="-fx-font-weight: bold; -fx-font-size: 14;" onAction="#handleManageProfessionals">
                         <GridPane.margin>
                             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                         </GridPane.margin>

@@ -1,5 +1,6 @@
 package app.service;
 
+import app.model.Academic;
 import app.model.Professional;
 
 import jakarta.persistence.EntityManager;
@@ -45,7 +46,25 @@ public class ProfessionalService {
      * @param professional the Professional to save
      */
     public void saveProfessional(Professional professional) {
-        entityManager.persist(professional);
+        EntityTransaction transaction = entityManager.getTransaction();
+
+        try {
+            transaction.begin();
+
+            Professional existing = findByPersonId(professional.getPersonId());
+            if (existing != null) {
+                throw new IllegalArgumentException("A professional with personId " + professional.getPersonId() + " already exists.");
+            }
+
+            entityManager.persist(professional);
+
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw e;
+        }
     }
 
     /**
@@ -80,11 +99,10 @@ public class ProfessionalService {
     /**
      * Deletes a Professional entity by its personId.
      *
-     * @param personId the personId of the Professional to delete
+     * @param  professional to delete
      */
-    public void deleteById(String personId) {
+    public void removeProfessional(Professional professional) {
         EntityTransaction transaction = entityManager.getTransaction();
-        Professional professional = findByPersonId(personId);
         try {
             transaction.begin();
             if (professional != null) {
