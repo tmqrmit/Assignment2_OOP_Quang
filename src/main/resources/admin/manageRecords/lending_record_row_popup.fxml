@@ -17,7 +17,7 @@
         <TextField fx:id="equipmentIdField" promptText="Equipment IDs"/>
         <DatePicker fx:id="borrowDateField"/>
         <DatePicker fx:id="returnDateField"/>
-        <TextField fx:id="statusField" promptText="Status"/>
+        <ComboBox fx:id="statusBox" promptText="Status"/>
         <TextField fx:id="purposeField" promptText="Purpose"/>
 
         <HBox spacing="10" alignment="CENTER">

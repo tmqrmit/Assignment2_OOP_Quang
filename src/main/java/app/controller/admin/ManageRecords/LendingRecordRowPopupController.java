@@ -35,7 +35,7 @@ public class LendingRecordRowPopupController {
     private DatePicker returnDateField;
 
     @FXML
-    private TextField statusField;
+    private ComboBox<LendingRecordStatus> statusBox;
 
     @FXML
     private TextField purposeField;
@@ -50,6 +50,9 @@ public class LendingRecordRowPopupController {
         this.lendingService = lendingService;
         this.record = record;
 
+        // Set up combo box
+        statusBox.getItems().setAll(LendingRecordStatus.values());
+
         // Populate fields with current data
         borrowerIdField.setText(record.getBorrower());
         responsibleAcademicIdField.setText(record.getResponsibleAcademic());
@@ -61,7 +64,7 @@ public class LendingRecordRowPopupController {
         // Convert to string and set value
         borrowDateField.setValue(LocalDate.parse(sdf.format(record.getBorrowDate())));
         returnDateField.setValue(LocalDate.parse(sdf.format(record.getReturnDate())));
-        statusField.setText(record.getStatus().name());
+        statusBox.setValue(record.getStatus());
         purposeField.setText(record.getPurpose());
     }
 
@@ -82,8 +85,7 @@ public class LendingRecordRowPopupController {
 
             Date updatedReturnDate = Date.from(returnDateField.getValue()
                     .atStartOfDay(ZoneId.systemDefault()).toInstant());
-            String statusText = statusField.getText().toUpperCase(); // convert to uppercase to match enum
-            LendingRecordStatus updatedStatus = LendingRecordStatus.valueOf(statusText);
+            LendingRecordStatus updatedStatus = statusBox.getValue();
             String updatedPurpose = purposeField.getText();
 
             // Check if borrower is a student
