@@ -5,6 +5,8 @@ import app.controller.admin.ManageCourses.AdminManageCoursesController;
 import app.controller.admin.ManageEquipment.AdminManageEquipmentController;
 import app.controller.admin.ManageProfessionals.AdminManageProfessionalsController;
 import app.controller.admin.ManageRecords.AdminManageRecordsController;
+import app.controller.admin.ManageStudents.AdminAddStudentController;
+import app.controller.admin.ManageStudents.AdminManageStudentsController;
 import app.service.*;
 import app.util.LogoutHandler;
 import jakarta.persistence.EntityManager;
@@ -50,9 +52,30 @@ public class AdminController implements LogoutHandler {
     // Button Handlers
     @FXML
     private void handleManageStudents() {
-        System.out.println("Manage Students button clicked");
-        // Implementation to manage students
-        // studentService.getAllStudents();
+        try {
+            // Load the FXML for the popup window
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/admin/manageStudents/admin_manage_students.fxml"));
+            Parent root = loader.load();
+
+            // Get the popup controller and initialize it with necessary data
+            AdminManageStudentsController controller = loader.getController();
+
+            controller.initialize();
+
+            // Create a new stage for the popup
+            Stage popupStage = new Stage();
+            popupStage.setTitle("Manage Students");
+
+            // Set the scene for the popup stage
+            popupStage.setScene(new Scene(root, 1200, 800));
+            popupStage.initModality(Modality.APPLICATION_MODAL); // Set modality to block interaction with other windows
+
+            // Show the popup and wait until it's closed
+            popupStage.showAndWait();
+        } catch (IOException e) {
+            // Log or display the error if FXML or other initialization fails
+            e.printStackTrace();
+        }
     }
 
     @FXML

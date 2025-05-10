@@ -34,12 +34,19 @@ public class StudentService {
      * @throws IllegalArgumentException if a Student with the same studentId already exists
      */
     public void saveStudent(Student student) {
-        // Check for duplicate studentId
-        Student existingStudent = findByPersonId(student.getStudentId());
-        if (existingStudent != null) {
-            throw new IllegalArgumentException("Student with studentId " + student.getStudentId() + " already exists.");
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            if (findByPersonId(student.getPersonId()) != null) {
+                throw new IllegalArgumentException("Student with ID " + student.getPersonId() + " already exists.");
+            }
+            transaction.begin();
+            entityManager.persist(student);
+            System.out.println("Student updated successfully");
+            transaction.commit();
+        } catch (Exception e) {
+            transaction.rollback();
+            throw e;
         }
-        entityManager.persist(student);
     }
 
     /**
@@ -92,12 +99,18 @@ public class StudentService {
     /**
      * Remove a Student entity by studentId.
      *
-     * @param personId the studentId of the Student to delete
+     * @param student to delete
      */
-    public void deleteByPersonId(String personId) {
-        Student student = findByPersonId(personId);
-        if (student != null) {
+    public void removeStudent(Student student) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
             entityManager.remove(student);
+            System.out.println("Student removed successfully");
+            transaction.commit();
+        } catch (Exception e) {
+            transaction.rollback();
+            throw e;
         }
     }
 
