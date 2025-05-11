@@ -33,7 +33,7 @@
             <VBox alignment="CENTER"
                   spacing="5"
                   style="-fx-padding: 10; -fx-min-width: 150;">
-                <Label text="ITEMS BORROWED"
+                <Label text="LENDING RECORDS"
                        style="-fx-font-size: 12px; -fx-text-fill: #666;"/>
                 <Label fx:id="totalLendingLabel"
                        text="0"
@@ -91,7 +91,7 @@
                   style="-fx-padding: 10; -fx-min-width: 150;">
                 <Label text="BORROWING FREQUENCY"
                        style="-fx-font-size: 12px; -fx-text-fill: #666;"/>
-                <Label fx:id="borrowFrequencyLabel"
+                <Label fx:id="borrowingFrequencyLabel"
                        text="Avg/User: 0"
                        style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
             </VBox>
@@ -117,15 +117,6 @@
                 <Label text="Count: "
                        style="-fx-font-size: 14px; -fx-text-fill: #666;"/>
                 <Label fx:id="mostBorrowedCountLabel"
-                       text="0"
-                       style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
-            </HBox>
-
-            <!-- Borrowing Frequency -->
-            <HBox>
-                <Label text="Frequency: "
-                       style="-fx-font-size: 14px; -fx-text-fill: #666;"/>
-                <Label fx:id="borrowingFrequencyLabel"
                        text="0"
                        style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
             </HBox>
