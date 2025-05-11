@@ -15,6 +15,7 @@ import jakarta.transaction.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -70,6 +71,16 @@ public class LendingService {
                         "SELECT l FROM LendingRecord l WHERE l.recordId = :recordId", LendingRecord.class)
                 .setParameter("recordId", recordId)
                 .getSingleResult();
+    }
+
+    /**
+     * Get number of unique borrower
+     */
+
+    public int getUniqueBorrower() {
+        return entityManager.createQuery(
+                        "SELECT COUNT(DISTINCT l.borrowerId) FROM LendingRecord l", Long.class)
+                .getSingleResult().intValue();
     }
 
     // ================= Overdue LendingRecords =================
@@ -494,6 +505,35 @@ public class LendingService {
     }
 
     /**
+     * Find most borrowed equipment
+     */
+
+    public Equipment findMostBorrowedEquipment() {
+        List<LendingRecord> records = filterLendingRecords(null, null, null, null, null, null, null, approvalStatus.APPROVED);
+
+        if (records.isEmpty()) return null;
+
+        // Count each equipment's borrow frequency
+        Map<String, Long> frequencyMap = records.stream()
+                .flatMap(record -> record.getBorrowedEquipment().stream()) // Flatten borrowed equipment from each record
+                .collect(Collectors.groupingBy(
+                        equipmentId -> equipmentId, // group by equipmentId
+                        Collectors.counting()       // count occurrences
+                ));
+
+        // Find the equipment ID with the max frequency
+        String mostBorrowedId = frequencyMap.entrySet().stream()
+                .max(Map.Entry.comparingByValue()) // Get the entry with the highest count
+                .map(Map.Entry::getKey)           // Get the equipmentId from that entry
+                .orElse(null);                    // If no equipment found, return null
+
+        if (mostBorrowedId == null) return null;
+
+        // Return the Equipment entity corresponding to the most borrowed equipment ID
+        return inventoryService.findByEquipmentId(mostBorrowedId);
+    }
+
+    /**
      * Turn every equipment in the list to BORROWED
      */
     public void setAllEquipmentToBorrowed(Set<String> equipmentList) {
@@ -509,5 +549,23 @@ public class LendingService {
             }
         });
     }
+
+    /**
+     * Get number of times borrowed for an equipment
+     */
+
+    public int findTotalTimesBorrowed(Equipment equipment) {
+        String jpql = "SELECT COUNT(lr) FROM LendingRecord lr " +
+                "WHERE CONCAT(',', lr.borrowedEquipment, ',') LIKE CONCAT('%,', :equipmentId, ',%') " +
+                "AND lr.approval_status = :status";
+
+        Long count = entityManager.createQuery(jpql, Long.class)
+                .setParameter("equipmentId", equipment.getEquipmentId().toString())
+                .setParameter("status", approvalStatus.APPROVED)
+                .getSingleResult();
+
+        return (int) (count != null ? count : 0);
+    }
+
 }
 

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="app.controller.admin.SystemAnalyticsController"
+            style="-fx-background-color: #f4f4f4; -fx-padding: 20;">
+
+    <!-- Header Section -->
+    <VBox alignment="CENTER_LEFT"
+          spacing="20"
+          AnchorPane.topAnchor="20"
+          AnchorPane.leftAnchor="20"
+          AnchorPane.rightAnchor="20">
+
+        <!-- Title -->
+        <Label text="System Analytics"
+               style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #333;"/>
+
+        <!-- Divider -->
+        <Separator style="-fx-padding: 0 0 10 0;"/>
+
+        <!-- Statistics Cards -->
+        <HBox spacing="30"
+              alignment="CENTER"
+              style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);">
+
+            <!-- Total Lending Card -->
+            <VBox alignment="CENTER"
+                  spacing="5"
+                  style="-fx-padding: 10; -fx-min-width: 150;">
+                <Label text="ITEMS BORROWED"
+                       style="-fx-font-size: 12px; -fx-text-fill: #666;"/>
+                <Label fx:id="totalLendingLabel"
+                       text="0"
+                       style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+            </VBox>
+
+            <!-- Divider -->
+            <Separator orientation="VERTICAL"/>
+
+            <!-- Total Equipment Card -->
+            <VBox alignment="CENTER"
+                  spacing="5"
+                  style="-fx-padding: 10; -fx-min-width: 150;">
+                <Label text="EQUIPMENT"
+                       style="-fx-font-size: 12px; -fx-text-fill: #666;"/>
+                <Label fx:id="totalEquipmentLabel"
+                       text="0"
+                       style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+            </VBox>
+
+            <!-- Divider -->
+            <Separator orientation="VERTICAL"/>
+
+            <!-- Total Borrowers Card -->
+            <VBox alignment="CENTER"
+                  spacing="5"
+                  style="-fx-padding: 10; -fx-min-width: 150;">
+                <Label text="BORROWERS"
+                       style="-fx-font-size: 12px; -fx-text-fill: #666;"/>
+                <Label fx:id="totalBorrowersLabel"
+                       text="0"
+                       style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+            </VBox>
+
+            <!-- Divider -->
+            <Separator orientation="VERTICAL"/>
+
+            <!-- Overdue Rate Card -->
+            <VBox alignment="CENTER"
+                  spacing="5"
+                  style="-fx-padding: 10; -fx-min-width: 150;">
+                <Label text="OVERDUE RATE"
+                       style="-fx-font-size: 12px; -fx-text-fill: #666;"/>
+                <Label fx:id="overdueRateLabel"
+                       text="0%"
+                       style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #e74c3c;"/>
+            </VBox>
+
+            <!-- Divider -->
+            <Separator orientation="VERTICAL"/>
+
+            <!-- Borrowing Frequency Card -->
+            <VBox alignment="CENTER"
+                  spacing="5"
+                  style="-fx-padding: 10; -fx-min-width: 150;">
+                <Label text="BORROWING FREQUENCY"
+                       style="-fx-font-size: 12px; -fx-text-fill: #666;"/>
+                <Label fx:id="borrowFrequencyLabel"
+                       text="Avg/User: 0"
+                       style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+            </VBox>
+
+        </HBox>
+
+        <!-- New Analytics Section -->
+        <VBox alignment="CENTER_LEFT"
+              spacing="20"
+              style="-fx-padding: 20 0 0 0;">
+
+            <!-- Most Borrowed Item Name -->
+            <HBox>
+                <Label text="Most Borrowed Item: "
+                       style="-fx-font-size: 14px; -fx-text-fill: #666;"/>
+                <Label fx:id="mostBorrowedNameLabel"
+                       text="Item Name"
+                       style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+            </HBox>
+
+            <!-- Most Borrowed Count -->
+            <HBox>
+                <Label text="Count: "
+                       style="-fx-font-size: 14px; -fx-text-fill: #666;"/>
+                <Label fx:id="mostBorrowedCountLabel"
+                       text="0"
+                       style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+            </HBox>
+
+            <!-- Borrowing Frequency -->
+            <HBox>
+                <Label text="Frequency: "
+                       style="-fx-font-size: 14px; -fx-text-fill: #666;"/>
+                <Label fx:id="borrowingFrequencyLabel"
+                       text="0"
+                       style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+            </HBox>
+        </VBox>
+
+    </VBox>
+</AnchorPane>

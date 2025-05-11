@@ -219,6 +219,34 @@ public class AdminController implements LogoutHandler {
     }
 
     @FXML
+    private void handleSystemAnalytics() {
+        try {
+            // Load the FXML for the popup window
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/admin/system_analytics.fxml"));
+            Parent root = loader.load();
+
+            // Get the popup controller and initialize it with necessary data
+            SystemAnalyticsController controller = loader.getController();
+
+//            controller.initialize(); // Pass LendingService
+
+            // Create a new stage for the popup
+            Stage popupStage = new Stage();
+            popupStage.setTitle("System Analytics");
+
+            // Set the scene for the popup stage
+            popupStage.setScene(new Scene(root, 1200, 800));
+            popupStage.initModality(Modality.APPLICATION_MODAL); // Set modality to block interaction with other windows
+
+            // Show the popup and wait until it's closed
+            popupStage.showAndWait();
+        } catch (IOException e) {
+            // Log or display the error if FXML or other initialization fails
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     private void handleLogout() {
         logout(welcomeLabel);
     }
