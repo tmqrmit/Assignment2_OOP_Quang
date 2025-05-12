@@ -2,6 +2,7 @@ package app.controller.admin.ManageRecords;
 
 import app.model.LendingRecord;
 import app.model.enums.LendingRecordStatus;
+import app.model.enums.approvalStatus;
 import app.service.LendingService;
 import app.service.StudentService;
 import jakarta.persistence.Persistence;
@@ -72,6 +73,7 @@ public class LendingRecordRowPopupController {
     private void handleUpdate() {
         try {
             LendingRecordStatus prevStatus = record.getStatus();
+            approvalStatus prevApprovalStatus = record.getApprovalStatus();
 
             String updatedBorrower = borrowerIdField.getText();
             String updatedResponsibleAcademic = responsibleAcademicIdField.getText();
@@ -97,10 +99,8 @@ public class LendingRecordRowPopupController {
             }
             LendingRecord updated = new LendingRecord(record.getRecordId(), updatedBorrower, equipmentSet, updatedResponsibleAcademic, updatedBorrowDate, updatedReturnDate, updatedStatus, updatedPurpose);
 
-            // If not a student, set it to APPROVED
-            if (!isStudent) {
-                updated.setApprovalStatus(app.model.enums.approvalStatus.APPROVED);
-            }
+            // Set approval status to previous one
+            updated.setApprovalStatus(prevApprovalStatus);
 
             lendingService.updateLendingRecord(updated);
 

@@ -69,7 +69,9 @@ public class AcademicStatsController {
 
         // Loop through records and add number of items borrowed
         for (LendingRecord record : records) {
-            totalBorrowed += record.getBorrowedEquipment().size();
+            if (record.getStatus().equals(LendingRecordStatus.BORROWED)) {
+                totalBorrowed += record.getBorrowedEquipment().size();
+            }
             if (record.getStatus().equals(LendingRecordStatus.OVERDUE)) {
                 totalOverdueItems += record.getBorrowedEquipment().size();
             }
