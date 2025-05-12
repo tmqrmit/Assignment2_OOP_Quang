@@ -555,16 +555,21 @@ public class LendingService {
      */
 
     public int findTotalTimesBorrowed(Equipment equipment) {
-        String jpql = "SELECT COUNT(lr) FROM LendingRecord lr " +
-                "WHERE CONCAT(',', lr.borrowedEquipment, ',') LIKE CONCAT('%,', :equipmentId, ',%') " +
-                "AND lr.approval_status = :status";
+        List<LendingRecord> records = filterLendingRecords(
+                null, null, null, null, null, null, null, approvalStatus.APPROVED
+        );
 
-        Long count = entityManager.createQuery(jpql, Long.class)
-                .setParameter("equipmentId", equipment.getEquipmentId().toString())
-                .setParameter("status", approvalStatus.APPROVED)
-                .getSingleResult();
+        String targetId = equipment.getEquipmentId();
+        int count = 0;
 
-        return (int) (count != null ? count : 0);
+        for (LendingRecord lr : records) {
+            Set<String> equipmentSet = lr.getBorrowedEquipment();
+            if (equipmentSet.contains(targetId)) {
+                count++;
+            }
+        }
+
+        return count;
     }
 
 }
