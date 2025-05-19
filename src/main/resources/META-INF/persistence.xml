@@ -5,7 +5,7 @@
 
         <!-- Database Configuration -->
         <properties>
-            <!--Local connection-->
+<!--            &lt;!&ndash;Local connection&ndash;&gt;-->
 <!--            <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>-->
 <!--            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/my_database"/>-->
 <!--            <property name="jakarta.persistence.jdbc.user" value="postgres"/>-->
@@ -14,7 +14,7 @@
             <!--Supabase connection-->
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres"/>
-            <property name="jakarta.persistence.jdbc.user" value="postgres.rqkeymlcxisbacayrbxh"/>
+            <property name="jakarta.persistence.jdbc.user" value="postgres.csunvzsrszjgujzjieoq"/>
             <property name="jakarta.persistence.jdbc.password" value="@rmit@databasee"/>
 
                 <!-- Hibernate Configuration -->
